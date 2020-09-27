@@ -1,11 +1,12 @@
 import React from 'react';
-import {Link} from "react-router-dom";
+import {Link, withRouter} from "react-router-dom";
 import './Navbar.css';
 
 class Navbar extends React.Component {
+  
   constructor() {
     super();
-
+    this.updateCategory = this.updateCategory.bind(this);
     this.toggleNavbar = this.toggleNavbar.bind(this);
   }
 
@@ -19,7 +20,14 @@ class Navbar extends React.Component {
 		navButtonLines.forEach((line, index) => {
 			line.classList.toggle("nav-button-line"+(index+1)+"-active");
 		});
-	}
+  }
+  
+  updateCategory(e) {
+    let category = e.target.id.split("_")[1];
+    this.props.updateCategory(category);
+    this.toggleNavbar();
+    this.props.history.push("/");
+  }
 
   render() {
     return(
@@ -44,14 +52,11 @@ class Navbar extends React.Component {
             <div className="title">
               Categories
             </div>
-            <div className="link">
-              Hot
+            <div className="link" id="navbar_funny" onClick={this.updateCategory}>
+              funny
             </div>
-            <div className="link">
-              Trending
-            </div>
-            <div className="link">
-              Fresh
+            <div className="link" id="navbar_news" onClick={this.updateCategory}>
+              news
             </div>
             <div className="title">
               Account
@@ -69,4 +74,4 @@ class Navbar extends React.Component {
   }
 }
 
-export default Navbar;
+export default withRouter(Navbar);

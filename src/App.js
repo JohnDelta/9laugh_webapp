@@ -8,14 +8,25 @@ import Login from './Login';
 import {
   BrowserRouter as Router,
   Switch,
-  Route,
-  Link
+  Route
 } from "react-router-dom";
 
 class App extends React.Component {
 
   constructor() {
     super();
+
+    this.state = {
+      category: "funny"
+    };
+
+    this.updateCategory = this.updateCategory.bind(this);
+  }
+
+  updateCategory(category) {
+    this.setState({
+      category: category
+    });
   }
 
   render() {
@@ -23,7 +34,7 @@ class App extends React.Component {
       <Router>
         <div className="App">
           
-          <Navbar />
+          <Navbar updateCategory={this.updateCategory} />
 
           <Switch>
             <Route exact path="/create">
@@ -35,7 +46,7 @@ class App extends React.Component {
             </Route>
 
             <Route path="/">
-              <Main />
+              <Main category={this.state.category} />
             </Route>
           </Switch>
 

@@ -3,3 +3,14 @@
     margin-top: 12vh;
     background-color: green;
 }
+
+.popularity-div {
+    display: grid;
+    grid-template-columns: 0.5fr 0.5fr;
+    grid-template-rows: auto;
+}
+
+.popularity-div button {
+    font-size: 20px;
+    padding: 6px;
+}

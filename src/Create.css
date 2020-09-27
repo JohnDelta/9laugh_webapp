@@ -13,6 +13,11 @@
     align-items: center;
 }
 
+.Create > div p {
+    margin-bottom: 10px;
+    font-size: 14px;
+}
+
 .Create .title {
     margin-top: 20px;
     padding: 20px;
@@ -34,7 +39,7 @@
     background-color: aqua;
 }
 
-.Create .input > input[type=text] {
+.Create .input > input[type=email] {
     height: 35px;
     font-size: 18px;
     padding: 4px;
@@ -50,7 +55,7 @@
     margin-bottom: 10px;
 }
 
-.Create .login-button {
+.Create .create-button {
     border: none;
     font-size: 20px;
     padding: 6px;
