@@ -1,0 +1,55 @@
+.AddPost {
+    margin-top: 12vh;
+    display: flex;
+    flex-direction: column;
+}
+
+.AddPost .post {
+    background-color: brown;
+    display: grid;
+    grid-template-areas:
+        "uploader category" 
+        "title title"
+        "img img"
+        "file file"
+    ;
+    row-gap: 5px;
+    margin: 20px;
+    padding: 10px;
+}
+
+.AddPost .post .title {
+    grid-area: title;
+    width: 100%;
+    font-size: 20px;
+    word-wrap: break-word;
+    padding: 4px;
+    resize: none;
+}
+
+.AddPost .post img {
+    grid-area: img;
+    width: 100%;
+    object-fit: cover;
+}
+
+.AddPost .post .uploader {
+    grid-area: uploader;
+    padding: 4px;
+    justify-self: start;
+}
+
+.AddPost .post .category {
+    grid-area: category;
+    padding: 4px;
+    justify-self: end;
+}
+
+.AddPost .post .file {
+    grid-area: file;
+}
+
+.AddPost .upload-button {
+    padding: 8px;
+    font-size: 20px;
+}

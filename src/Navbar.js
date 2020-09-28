@@ -8,6 +8,7 @@ class Navbar extends React.Component {
     super();
     this.updateCategory = this.updateCategory.bind(this);
     this.toggleNavbar = this.toggleNavbar.bind(this);
+    this.handleLogout = this.handleLogout.bind(this);
   }
 
   toggleNavbar() {
@@ -27,9 +28,41 @@ class Navbar extends React.Component {
     this.props.updateCategory(category);
     this.toggleNavbar();
     this.props.history.push("/");
+
+    let items = document.querySelectorAll(".tag");
+    items.forEach((item, iIndex) => {
+      if(item.id === e.target.id) {
+        item.classList.add("tag-active");
+      } else {
+        item.classList.remove("tag-active");
+      }
+    });
+  }
+
+  handleLogout() {
+    localStorage.clear();
+    this.props.history.push("/");
   }
 
   render() {
+    let accountMenu = [];
+    if(localStorage.getItem("token")) {
+      accountMenu.push(
+        <div className="link" onClick={this.handleLogout} key="menu_logout_key">
+          Logout
+        </div>
+      );
+    } else {
+      accountMenu.push(
+        [<Link className="link" to="/create" onClick={this.toggleNavbar} key="link_create_form_key">
+          Create New
+        </Link>],
+        [<Link className="link" to="/login" onClick={this.toggleNavbar} key="link_login_form_key">
+          Login
+        </Link>]
+      );
+    }
+
     return(
       <div className="Navbar">
         <Link className="logo-div" to="/">
@@ -52,21 +85,22 @@ class Navbar extends React.Component {
             <div className="title">
               Categories
             </div>
-            <div className="link" id="navbar_funny" onClick={this.updateCategory}>
+            <div className="link tag tag-active" id="navbar_funny" onClick={this.updateCategory}>
               funny
             </div>
-            <div className="link" id="navbar_news" onClick={this.updateCategory}>
+            <div className="link tag" id="navbar_news" onClick={this.updateCategory}>
               news
+            </div>
+            <div className="link tag" id="navbar_random" onClick={this.updateCategory}>
+              random
+            </div>
+            <div className="link tag" id="navbar_wtf" onClick={this.updateCategory}>
+              wtf
             </div>
             <div className="title">
               Account
             </div>
-            <Link className="link" to="/create" onClick={this.toggleNavbar}>
-              Create New
-            </Link>
-            <Link className="link" to="/login" onClick={this.toggleNavbar}>
-              Login
-            </Link>
+            {accountMenu}
           </div>
         </div> 
       </div>

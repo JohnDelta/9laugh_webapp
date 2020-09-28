@@ -1,5 +1,6 @@
 import React from 'react';
 import './Main.css';
+import {withRouter} from "react-router-dom";
 
 class Main extends React.Component {
   constructor() {
@@ -33,6 +34,7 @@ class Main extends React.Component {
     this.mappedPosts = this.mappedPosts.bind(this);
     this.handleVote = this.handleVote.bind(this);
     this.changePopularity = this.changePopularity.bind(this);
+    this.addPost = this.addPost.bind(this);
   }
 
   componentDidUpdate() {
@@ -52,6 +54,15 @@ class Main extends React.Component {
       popularity: popularity
     });
 
+    let items = document.querySelectorAll(".popularity-div button");
+    items.forEach((item, iIndex) => {
+      if(item.id === e.target.id) {
+        item.classList.add("popularity-div-button-active");
+      } else {
+        item.classList.remove("popularity-div-button-active");
+      }
+    });
+
     // call the change posts function
   }
 
@@ -68,6 +79,10 @@ class Main extends React.Component {
     }
 
     //check if you can upvote-dwonvote the postId - user record in db
+  }
+
+  addPost() {
+    this.props.history.push("/add-post");
   }
 
   mappedPosts() {
@@ -116,11 +131,20 @@ class Main extends React.Component {
 
     let posts = this.mappedPosts();
 
+    let addPost = [];
+    if(!localStorage.getItem("token")) {
+      addPost.push(
+        <button className="add-post-button" key="add_post_button_key" onClick={this.addPost}>
+          +
+        </button>
+      );
+    }
+
     return(
       <div className="Main">
         
         <div className="popularity-div">
-          <button id="popularity_popular" onClick={this.changePopularity}>Popular</button>
+          <button className="popularity-div-button-active" id="popularity_popular" onClick={this.changePopularity}>Popular</button>
           <button id="popularity_new" onClick={this.changePopularity}>New</button>
         </div>
 
@@ -128,9 +152,11 @@ class Main extends React.Component {
           {posts}
         </div>
 
+        {addPost}
+
       </div>
     );
   }
 }
 
-export default Main;
+export default withRouter(Main);

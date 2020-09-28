@@ -4,6 +4,7 @@ import Navbar from './Navbar';
 import Main from './Main';
 import Create from './Create';
 import Login from './Login';
+import AddPost from './AddPost';
 
 import {
   BrowserRouter as Router,
@@ -43,6 +44,10 @@ class App extends React.Component {
 
             <Route exact path="/login">
               <Login />
+            </Route>
+
+            <Route exact path="/add-post">
+              <AddPost />
             </Route>
 
             <Route path="/">
