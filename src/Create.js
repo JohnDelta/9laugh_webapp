@@ -109,16 +109,22 @@ class Create extends React.Component {
             {this.state.error}
           </div>
           <div className="input">
-            <i className="fa fa-user">U</i>
+            <div className="icon">
+              <i className="fa fa-user"></i>
+            </div>
             <input type="text" id="create_username#1" placeholder="user" onChange={this.onInputChange} />
           </div>
           <div className="input">
-            <i className="fa fa-user">U</i>
+            <div className="icon">
+              <i className="fa fa-lock"></i>
+            </div>
             <input type="password" id="create_password#1" placeholder="user123" onChange={this.onInputChange} />
           </div>
           <p>Please, type your password again</p>
           <div className="input">
-            <i className="fa fa-user">U</i>
+            <div className="icon">
+              <i className="fa fa-lock"></i>
+            </div>
             <input type="password" id="create_password#2" placeholder="user123" onChange={this.onInputChange} />
           </div>
           <button className="create-button" onClick={this.handleSubmit}>

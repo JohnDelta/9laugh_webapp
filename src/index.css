@@ -1,3 +1,16 @@
+/*
+
+    colour palette
+
+    Dark1: 11151C;
+    Dark2: 212D40;
+    Dark3: 364156;
+
+    Light1: 00d9fb;
+    Light2: f86624; orange (white text)
+
+*/
+
 * {
   box-sizing: border-box;
   padding: 0px;
@@ -5,6 +18,11 @@
   font-family: 'Ubuntu', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  color: #00d9fb;
+}
+
+body {
+  background-color: #11151C;
 }
 
 button {
@@ -15,4 +33,12 @@ button {
 button:active {
   filter: brightness(80%);
   transform: scale(0.95);
+}
+
+button:active i {
+  color: #f86624;
+}
+
+button:active p {
+  color: #f86624;
 }

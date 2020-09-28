@@ -1,3 +1,16 @@
+/*
+
+    colour palette
+
+    Dark1: 11151C;
+    Dark2: 212D40;
+    Dark3: 364156;
+
+    Light1: 00d9fb;
+    Light2: f86624; orange (white text)
+
+*/
+
 .Main {
     height: 88vh;
     margin-top: 12vh;
@@ -15,17 +28,18 @@
 }
 
 .popularity-div button {
+    background-color: #364156;
     font-size: 20px;
     padding: 6px;
 }
 
 .popularity-div-button-active {
-    border-bottom: 2px solid #000;
+    color: #f86624;
+    border-bottom: 2px solid #f86624;
 }
 
 .posts-div {
     overflow: hidden;
-    background-color: blueviolet;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -33,7 +47,7 @@
 }
 
 .post {
-    background-color: brown;
+    background-color: #212D40;
     display: grid;
     grid-template-areas: 
         "title title"
@@ -74,22 +88,34 @@
 
 .post .vote-div button {
     margin: 0px 15px 0px 5px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
 }
 
 .post .vote-div button i {
-    width: 40px;
-    height: 40px;
     pointer-events: none;
+    font-size: 18px;
+    margin-left: 4px;
 }
 
 .post .comments-button {
     grid-area: comments;
     margin: 4px;
     justify-self: end;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+}
+
+.post .comments-button p {
+    pointer-events: none;
 }
 
 .post .comments-button i {
     pointer-events: none;
+    font-size: 18px;
+    margin-left: 4px;
 }
 
 .post .uploader {
@@ -112,4 +138,10 @@
     bottom: 20px;
     right: 20px;
     font-size: 35px;
+    color: #00d9fb;;
+    background-color: #212D40;
+}
+
+.add-post-button:active {
+    color: #f86624;
 }

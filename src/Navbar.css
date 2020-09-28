@@ -1,6 +1,19 @@
+/*
+
+    colour palette
+
+    Dark1: 11151C;
+    Dark2: 212D40;
+    Dark3: 364156;
+
+    Light1: 00d9fb;
+    Light2: f86624; orange (white text)
+
+*/
+
 .Navbar {
     width: 100vw;
-    background-color: red;
+    background-color: #212D40;
     height: 12vh;
     position: fixed;
     display: flex;
@@ -20,10 +33,12 @@
 
 .logo-div span {
     font-size: 32px;
+    color: #f86624;
 }
 
 .logo-div p {
     font-size: 26px;
+    color: #00d9fb;
 }
 
 .menu-div {
@@ -33,7 +48,8 @@
 }
 
 .notification-div {
-    margin-right: 5px;
+    background-color: transparent;
+    margin-right: 15px;
 }
 
 .notification-div i {
@@ -53,7 +69,7 @@
 .nav-button div {
     width: 25px;
     height: 3px;
-    background-color: #000;
+    background-color: #00d9fb;
     transition: 0.3s ease-out;
 }
 
@@ -61,7 +77,7 @@
     position: fixed;
     top: 0px;
     right: 0px;
-    background-color: gray;
+    background-color: #364156;
     margin-top: 12vh;
     height: 88vh;
     display: flex;
@@ -85,11 +101,12 @@
     font-size: 16px;
     margin-left: 10px;
     text-decoration: none;
-    color: #000;
+    color: #00d9fb;
 }
 
 .tag-active {
     text-decoration: underline !important;
+    color: #f86624 !important;
 }
 
 .nav-button-line1-active {

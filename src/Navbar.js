@@ -71,9 +71,9 @@ class Navbar extends React.Component {
         </Link>
         
         <div className="menu-div">
-          <div className="notification-div">
-            <i className="fa fa-notification">G</i>
-          </div>
+          <button className="notification-div">
+            <i className="fa fa-bell"></i>
+          </button>
           
           <div className="nav-button" onClick={this.toggleNavbar}>
             <div />

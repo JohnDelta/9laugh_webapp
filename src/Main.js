@@ -98,19 +98,20 @@ class Main extends React.Component {
           <img src={require(`${post.mediaSource}`)} />
           
           <div className="vote-div">
-            <p className="votes">{post.upvotes}</p>
             <button id={"upvote_"+post.id+"_"+post.user} onClick={this.handleVote}>
-              <i className="fa fa-up">UP</i>
+              <p className="votes">{post.upvotes}</p>
+              <i className="fa fa-thumbs-up"></i>
             </button>
 
-            <p className="votes">{post.downvotes}</p>
             <button id={"downvote_"+post.id+"_"+post.user} onClick={this.handleVote}>
-              <i className="fa fa-up">DO</i>
+              <p className="votes">{post.downvotes}</p>
+              <i className="fa fa-thumbs-down"></i>
             </button>
           </div>
           
           <button className="comments-button">
-            <i className="fa fa-comments">CO</i>
+            <p>Comments</p>
+            <i className="fa fa-comments"></i>
           </button>
 
           <p className="uploader">{post.user}</p>

@@ -6,7 +6,7 @@ class AddPost extends React.Component {
   constructor() {
     super();
     this.state = {
-        defaultImg: "./test_img.png",
+        defaultImg: require(`${"./test_img.png"}`),
         category: "funny",
         user: "user",
         title: "photo title"
@@ -17,8 +17,9 @@ class AddPost extends React.Component {
   }
 
   handleUpload() {
+      console.log("upload");
       //upload post and gtfo
-      this.props.history.push("/");
+      //this.props.history.push("/");
   }
 
   onFieldChange(e) {
@@ -29,16 +30,22 @@ class AddPost extends React.Component {
   }
 
   onImageChange(e) {
-    if(e.target.value) {
+    if(e.target.files[0]) {
 
-        // have to upload to blob the photo somehow
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      var url = reader.readAsDataURL(file);
 
+      reader.onloadend = function (e) {
         this.setState({
-            defaultImg: e.target.value
+          defaultImg: [reader.result]
         });
+      }.bind(this);
+
     } else {
+        URL.revokeObjectURL(this.state.defaultImg); // free memory from link
         this.setState({
-            defaultImg: "./test_img.png"
+            defaultImg: require(`${"./test_img.png"}`)
         });
     }
   }
@@ -50,7 +57,7 @@ class AddPost extends React.Component {
         <div className="post">
           <textarea id="new_post_title" className="title" defaultValue={this.state.title} onChange={this.onFieldChange} />
 
-          <img src={require(`${this.state.defaultImg}`)} />
+          <img src={this.state.defaultImg} />
 
           <p className="uploader">{this.state.user}</p>
 

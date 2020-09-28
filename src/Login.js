@@ -89,11 +89,15 @@ class Login extends React.Component {
             {this.state.error}
           </div>
           <div className="input">
-            <i className="fa fa-user">U</i>
+            <div className="icon">
+              <i className="fa fa-user"></i>
+            </div>
             <input type="text" id="login_username" placeholder="user" onChange={this.onInputChange} />
           </div>
           <div className="input">
-            <i className="fa fa-user">U</i>
+            <div className="icon">
+              <i className="fa fa-lock"></i>
+            </div>
             <input type="password" id="login_password" placeholder="user123" onChange={this.onInputChange} />
           </div>
           <button className="login-button" onClick={this.handleSubmit}>

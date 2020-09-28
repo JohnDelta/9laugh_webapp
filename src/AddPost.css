@@ -1,11 +1,26 @@
+/*
+
+    colour palette
+
+    Dark1: 11151C;
+    Dark2: 212D40;
+    Dark3: 364156;
+
+    Light1: 00d9fb;
+    Light2: f86624; orange (white text)
+
+*/
+
 .AddPost {
     margin-top: 12vh;
+    min-height: 88vh;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
 }
 
 .AddPost .post {
-    background-color: brown;
+    background-color: #212D40;
     display: grid;
     grid-template-areas:
         "uploader category" 
@@ -43,6 +58,7 @@
     grid-area: category;
     padding: 4px;
     justify-self: end;
+    background-color: #364156;
 }
 
 .AddPost .post .file {
@@ -52,4 +68,9 @@
 .AddPost .upload-button {
     padding: 8px;
     font-size: 20px;
+    background-color: #364156;
+}
+
+.AddPost .upload-button:active {
+    color: #f86624;
 }

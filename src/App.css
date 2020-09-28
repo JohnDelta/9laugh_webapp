@@ -1,6 +1,18 @@
+/*
+
+    colour palette
+
+    Dark1: 11151C;
+    Dark2: 212D40;
+    Dark3: 364156;
+
+    Light1: 00a6fb; blue (white text)
+    Light2: f86624; orange (white text)
+
+*/
+
 .App {
   
     display: flex;
     flex-direction: column;
-    background-color: gray;
 }

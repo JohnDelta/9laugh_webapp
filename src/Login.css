@@ -1,7 +1,19 @@
+/*
+
+    colour palette
+
+    Dark1: 11151C;
+    Dark2: 212D40;
+    Dark3: 364156;
+
+    Light1: 00d9fb;
+    Light2: f86624; orange (white text)
+
+*/
+
 .Login {
     height: 88vh;
     margin-top: 12vh;
-    background-color: beige;
 }
 
 .Login {
@@ -34,10 +46,13 @@
     display: flex;
 }
 
-.Login .input i {
+.Login .input .icon {
     height: 35px;
     width: 35px;
-    background-color: aqua;
+    background-color: #364156;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Login .input > input[type=text] {
@@ -60,5 +75,9 @@
     border: none;
     font-size: 20px;
     padding: 6px;
-    background-color: brown;
+    background-color: #364156;
+}
+
+.Login .login-button:active {
+    color: #f86624;
 }

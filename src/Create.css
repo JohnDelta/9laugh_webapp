@@ -1,3 +1,16 @@
+/*
+
+    colour palette
+
+    Dark1: 11151C;
+    Dark2: 212D40;
+    Dark3: 364156;
+
+    Light1: 00d9fb;
+    Light2: f86624; orange (white text)
+
+*/
+
 .Create {
     height: 88vh;
     margin-top: 12vh;
@@ -31,12 +44,16 @@
 
 .Create .input {
     display: flex;
+    justify-content: center;
 }
 
-.Create .input i {
+.Create .input .icon {
     height: 35px;
     width: 35px;
-    background-color: aqua;
+    background-color: #364156;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .Create .input > input[type=text] {
@@ -59,5 +76,9 @@
     border: none;
     font-size: 20px;
     padding: 6px;
-    background-color: brown;
+    background-color: #364156;
+}
+
+.Create .create-button:active {
+    color: #f86624;
 }
