@@ -19,16 +19,24 @@ class Create extends React.Component {
   }
 
   onInputChange(e) {
-    let id = e.target.id.split("#")[0];
+    let args = e.target.id.split("#");
+    let id = args[0];
+    let number = Number(args[1]);
     let value = e.target.value;
     if(id === "create_username") {
       this.setState({
         username: value
       });
     } else if(id === "create_password") {
-      this.setState({
-        password: value
-      });
+      if(number === 1) {
+        this.setState({
+          password: value
+        });
+      } else if(number === 2) {
+        this.setState({
+          password2: value
+        });
+      }
     }
   }
 
@@ -41,13 +49,14 @@ class Create extends React.Component {
       });
     } else {
 
-      const url = 'http://localhost:8082/user/create';
+      const url = 'http://localhost:8082/api/user/add';
       const data = {"username":this.state.username, "password":this.state.password};
   
       try {
           const response = await fetch(url, {
               method: 'POST',
               headers: {
+                  'Authorization': null,
                   'Accept': 'application/json',
                   'Content-Type': 'application/json',
               },

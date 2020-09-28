@@ -55,7 +55,8 @@ class Login extends React.Component {
         }
         else if (response.status === 200) {
             const json = await response.json();
-            localStorage.setItem("jwt", json["token"]);
+            localStorage.setItem("token", json["token"]);
+            localStorage.setItem("user", this.state.username);
             this.setState({
               error: "",
               username: "",

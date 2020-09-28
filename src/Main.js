@@ -7,6 +7,7 @@ class Main extends React.Component {
    
     this.state = {
       popularity: "popular",
+      category: "",
       posts: [
         {
           "postId": 0,
@@ -34,17 +35,24 @@ class Main extends React.Component {
     this.changePopularity = this.changePopularity.bind(this);
   }
 
-  /*
-    make fake post data
-    populate the main page with them
-    leave functions for comment upvotedownvote out for now
-  */
+  componentDidUpdate() {
+    if(this.props.category !== this.state.category) {
+      this.setState({
+        category: this.props.category
+      });
+    }
+
+    // call the change posts function
+  }
+  
 
   changePopularity(e) {
     let popularity = e.target.id.split("_")[1];
     this.setState({
       popularity: popularity
     });
+
+    // call the change posts function
   }
 
   handleVote(e) {
@@ -98,7 +106,7 @@ class Main extends React.Component {
     });
 
     if(postsDiv.length === 0) {
-      postsDiv = "No posts yet";
+      postsDiv = <div className="post" key="post_zero">No posts yet</div>;
     }
 
     return postsDiv;
