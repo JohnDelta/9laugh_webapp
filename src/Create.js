@@ -8,7 +8,7 @@ class Create extends React.Component {
     super();
 
     this.state = {
-      email: "",
+      username: "",
       password: "",
       password2: "",
       error: ""
@@ -21,9 +21,9 @@ class Create extends React.Component {
   onInputChange(e) {
     let id = e.target.id.split("#")[0];
     let value = e.target.value;
-    if(id === "create_email") {
+    if(id === "create_username") {
       this.setState({
-        email: value
+        username: value
       });
     } else if(id === "create_password") {
       this.setState({
@@ -42,7 +42,7 @@ class Create extends React.Component {
     } else {
 
       const url = 'http://localhost:8082/user/create';
-      const data = {"email":this.state.email, "password":this.state.password};
+      const data = {"username":this.state.username, "password":this.state.password};
   
       try {
           const response = await fetch(url, {
@@ -66,7 +66,7 @@ class Create extends React.Component {
               localStorage.setItem("jwt", json["token"]);
               this.setState({
                 error: "",
-                email: "",
+                username: "",
                 password: "",
                 password2: ""
               });
@@ -80,7 +80,7 @@ class Create extends React.Component {
       }
   
       this.setState({
-        email: "",
+        username: "",
         password: "",
         password2: ""
       });
@@ -101,7 +101,7 @@ class Create extends React.Component {
           </div>
           <div className="input">
             <i className="fa fa-user">U</i>
-            <input type="email" id="create_email#1" placeholder="user@server.reg" onChange={this.onInputChange} />
+            <input type="text" id="create_username#1" placeholder="user" onChange={this.onInputChange} />
           </div>
           <div className="input">
             <i className="fa fa-user">U</i>

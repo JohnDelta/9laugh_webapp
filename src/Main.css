@@ -1,10 +1,14 @@
 .Main {
     height: 88vh;
     margin-top: 12vh;
-    background-color: green;
 }
 
 .popularity-div {
+    position: fixed;
+    top: 12vh;
+    left: 0px;
+    width: 100%;
+    height: 35px;
     display: grid;
     grid-template-columns: 0.5fr 0.5fr;
     grid-template-rows: auto;
@@ -13,4 +17,85 @@
 .popularity-div button {
     font-size: 20px;
     padding: 6px;
+}
+
+.posts-div {
+    overflow: hidden;
+    background-color: blueviolet;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 35px 20px 20px 20px;
+}
+
+.post {
+    background-color: brown;
+    display: grid;
+    grid-template-areas: 
+        "title title"
+        "img img"
+        "vote comments"
+        "uploader category"
+    ;
+    row-gap: 5px;
+    margin-top: 20px;
+}
+
+.post .title {
+    grid-area: title;
+    width: 100%;
+    font-size: 20px;
+    word-wrap: break-word;
+    padding: 4px;
+}
+
+.post img {
+    grid-area: img;
+    width: 100%;
+    object-fit: cover;
+}
+
+.post .vote-div {
+    grid-area: vote;
+    padding: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: start;
+}
+
+.post .vote-div .votes {
+    font-size: 14px;
+}
+
+.post .vote-div button {
+    margin: 0px 15px 0px 5px;
+}
+
+.post .vote-div button i {
+    width: 40px;
+    height: 40px;
+    pointer-events: none;
+}
+
+.post .comments-button {
+    grid-area: comments;
+    margin: 4px;
+    justify-self: end;
+}
+
+.post .comments-button i {
+    pointer-events: none;
+}
+
+.post .uploader {
+    grid-area: uploader;
+    padding: 4px;
+    justify-self: start;
+}
+
+.post .category {
+    grid-area: category;
+    padding: 4px;
+    justify-self: end;
 }

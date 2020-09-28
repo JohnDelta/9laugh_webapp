@@ -40,7 +40,7 @@
     background-color: aqua;
 }
 
-.Login .input > input[type=email] {
+.Login .input > input[type=text] {
     height: 35px;
     font-size: 18px;
     padding: 4px;

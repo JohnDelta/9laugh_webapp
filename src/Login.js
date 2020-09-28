@@ -8,7 +8,7 @@ class Login extends React.Component {
     super();
 
     this.state = {
-      email: "",
+      username: "",
       password: "",
       error: ""
     };
@@ -20,9 +20,9 @@ class Login extends React.Component {
   onInputChange(e) {
     let id = e.target.id;
     let value = e.target.value;
-    if(id === "login_email") {
+    if(id === "login_username") {
       this.setState({
-        email: value
+        username: value
       });
     } else if(id === "login_password") {
       this.setState({
@@ -34,7 +34,7 @@ class Login extends React.Component {
   // Handle Submit of login form
   async handleSubmit(e) {
     const url = 'http://localhost:8082/user/login';
-    const data = {"email":this.state.email, "password":this.state.password};
+    const data = {"username":this.state.username, "password":this.state.password};
 
     try {
         const response = await fetch(url, {
@@ -58,7 +58,7 @@ class Login extends React.Component {
             localStorage.setItem("jwt", json["token"]);
             this.setState({
               error: "",
-              email: "",
+              username: "",
               password: "",
               password2: ""
             });
@@ -72,7 +72,7 @@ class Login extends React.Component {
     }
 
     this.setState({
-      email: "",
+      username: "",
       password: ""
     });
 }
@@ -89,7 +89,7 @@ class Login extends React.Component {
           </div>
           <div className="input">
             <i className="fa fa-user">U</i>
-            <input type="email" id="login_email" placeholder="user@server.reg" onChange={this.onInputChange} />
+            <input type="text" id="login_username" placeholder="user" onChange={this.onInputChange} />
           </div>
           <div className="input">
             <i className="fa fa-user">U</i>

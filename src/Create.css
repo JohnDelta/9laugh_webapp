@@ -39,7 +39,7 @@
     background-color: aqua;
 }
 
-.Create .input > input[type=email] {
+.Create .input > input[type=text] {
     height: 35px;
     font-size: 18px;
     padding: 4px;
