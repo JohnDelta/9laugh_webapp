@@ -1,0 +1,121 @@
+/*
+
+    colour palette
+
+    Dark1: 11151C;
+    Dark2: 212D40;
+    Dark3: 364156;
+
+    Light1: 00d9fb;
+    Light2: f86624; orange (white text)
+
+*/
+
+.DisplayPost {
+    margin-top: 12vh;
+    min-height: 88vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.DisplayPost .post {
+    background-color: #212D40;
+    display: grid;
+    grid-template-areas: 
+        "title title"
+        "img img"
+        "vote comments"
+        "uploader category"
+    ;
+    row-gap: 5px;
+    margin: 20px;
+    padding: 10px;
+}
+
+.DisplayPost .post .title {
+    grid-area: title;
+    width: 100%;
+    font-size: 20px;
+    word-wrap: break-word;
+    padding: 4px;
+}
+
+.DisplayPost .post img {
+    grid-area: img;
+    width: 100%;
+    object-fit: cover;
+}
+
+.DisplayPost .post .vote-div {
+    grid-area: vote;
+    padding: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-self: start;
+}
+
+.DisplayPost .post .vote-div .votes {
+    font-size: 14px;
+}
+
+.DisplayPost .post .vote-div button {
+    margin: 0px 15px 0px 5px;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+}
+
+.DisplayPost .post .vote-div button i {
+    pointer-events: none;
+    font-size: 18px;
+    margin-left: 4px;
+}
+
+.DisplayPost .post .comments-button {
+    grid-area: comments;
+    margin: 4px;
+    justify-self: end;
+    background-color: transparent;
+    display: flex;
+    align-items: center;
+}
+
+.DisplayPost .post .comments-button p {
+    pointer-events: none;
+}
+
+.DisplayPost .post .comments-button i {
+    pointer-events: none;
+    font-size: 18px;
+    margin-left: 4px;
+}
+
+.DisplayPost .post .uploader {
+    grid-area: uploader;
+    padding: 4px;
+    justify-self: start;
+}
+
+.DisplayPost .post .category {
+    grid-area: category;
+    padding: 4px;
+    justify-self: end;
+}
+
+.add-post-button {
+    width: 45px;
+    height: 45px;
+    border-radius: 50%;
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    font-size: 35px;
+    color: #00d9fb;;
+    background-color: #212D40;
+}
+
+.add-post-button:active {
+    color: #f86624;
+}

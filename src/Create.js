@@ -72,14 +72,13 @@ class Create extends React.Component {
           }
           else if (response.status === 200) {
               const json = await response.json();
-              localStorage.setItem("jwt", json["token"]);
               this.setState({
                 error: "",
                 username: "",
                 password: "",
                 password2: ""
               });
-              this.props.history.push("/");
+              this.props.history.push("/login");
           }
       } catch (error) {
           console.error('Error:', error);

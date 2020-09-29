@@ -5,6 +5,7 @@ import Main from './Main';
 import Create from './Create';
 import Login from './Login';
 import AddPost from './AddPost';
+import DisplayPost from './DisplayPost';
 
 import {
   BrowserRouter as Router,
@@ -18,15 +19,23 @@ class App extends React.Component {
     super();
 
     this.state = {
-      category: "funny"
+      category: "funny",
+      post: []
     };
 
     this.updateCategory = this.updateCategory.bind(this);
+    this.updatePost = this.updatePost.bind(this);
   }
 
   updateCategory(category) {
     this.setState({
       category: category
+    });
+  }
+
+  updatePost(post) {
+    this.setState({
+      post: post
     });
   }
 
@@ -50,8 +59,12 @@ class App extends React.Component {
               <AddPost />
             </Route>
 
+            <Route exact path="/display-post">
+              <DisplayPost post={this.state.post} />
+            </Route>
+
             <Route path="/">
-              <Main category={this.state.category} />
+              <Main updatePost={this.updatePost} category={this.state.category} />
             </Route>
           </Switch>
 

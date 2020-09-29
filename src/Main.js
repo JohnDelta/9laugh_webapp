@@ -35,6 +35,7 @@ class Main extends React.Component {
     this.handleVote = this.handleVote.bind(this);
     this.changePopularity = this.changePopularity.bind(this);
     this.addPost = this.addPost.bind(this);
+    this.displayPost = this.displayPost.bind(this);
   }
 
   componentDidUpdate() {
@@ -85,31 +86,37 @@ class Main extends React.Component {
     this.props.history.push("/add-post");
   }
 
+  displayPost(e) {
+    let post = this.state.posts[e.target.id.split("_")[1]];
+    this.props.updatePost(post);
+    this.props.history.push("/display-post");
+  }
+
   mappedPosts() {
     let postsDiv = [];
 
     this.state.posts.forEach((post, pIndex) => {
       postsDiv.push(
         <div className="post" key={"post_ind_"+pIndex}>
-          <p className="title">
+          <p className="title" onClick={this.displayPost} id={"post-title-id_"+pIndex} >
             {post.title}
           </p>
 
-          <img src={require(`${post.mediaSource}`)} />
+          <img src={require(`${post.mediaSource}`)} onClick={this.displayPost} id={"post-image-id_"+pIndex} />
           
           <div className="vote-div">
-            <button id={"upvote_"+post.id+"_"+post.user} onClick={this.handleVote}>
+            <button id={"upvote_"+post.postId+"_"+post.user} onClick={this.handleVote}>
               <p className="votes">{post.upvotes}</p>
               <i className="fa fa-thumbs-up"></i>
             </button>
 
-            <button id={"downvote_"+post.id+"_"+post.user} onClick={this.handleVote}>
+            <button id={"downvote_"+post.postId+"_"+post.user} onClick={this.handleVote}>
               <p className="votes">{post.downvotes}</p>
               <i className="fa fa-thumbs-down"></i>
             </button>
           </div>
           
-          <button className="comments-button">
+          <button className="comments-button" onClick={this.displayPost} id={"comments-button-id_"+pIndex}>
             <p>Comments</p>
             <i className="fa fa-comments"></i>
           </button>
