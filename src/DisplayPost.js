@@ -1,13 +1,30 @@
 import React from 'react';
 import './DisplayPost.css';
-import {withRouter} from "react-router-dom";
+import {withRouter, Redirect} from "react-router-dom";
 
 class DisplayPost extends React.Component {
   constructor() {
     super();
 
-    if(!this.props) {
-        console.log("GTFO");
+    if(localStorage.getItem("post") === null) {
+      this.state = {
+        post: {
+            "postId": 0,
+            "title": "",
+            "mediaSource": "./test_img.png",
+            "upvotes": 0,
+            "downvotes": 0,
+            "user": "",
+            "category": ""
+        },
+        redirect: <Redirect push to={"/"} />
+      };
+    } else {
+      let post = JSON.parse(localStorage.getItem("post"));
+      this.state = {
+        post: post,
+        redirect: []
+      };
     }
 
     this.mappedPost = this.mappedPost.bind(this);
@@ -31,27 +48,29 @@ class DisplayPost extends React.Component {
   mappedPost() {
     return (
         <div className="post">
+            {this.state.redirect}
+
             <p className="title">
-                {this.props.post.title}
+                {this.state.post.title}
             </p>
 
-            <img src={require(`${this.props.post.mediaSource}`)} />
+            <img src={require(`${this.state.post.mediaSource}`)} />
             
             <div className="vote-div">
-                <button id={"upvote_"+this.props.post.postId+"_"+this.props.post.user} onClick={this.handleVote}>
-                <p className="votes">{this.props.post.upvotes}</p>
+                <button id={"upvote_"+this.state.post.postId+"_"+this.state.post.user} onClick={this.handleVote}>
+                <p className="votes">{this.state.post.upvotes}</p>
                 <i className="fa fa-thumbs-up"></i>
                 </button>
 
-                <button id={"downvote_"+this.props.post.postId+"_"+this.props.post.user} onClick={this.handleVote}>
-                <p className="votes">{this.props.post.downvotes}</p>
+                <button id={"downvote_"+this.state.post.postId+"_"+this.state.post.user} onClick={this.handleVote}>
+                <p className="votes">{this.state.post.downvotes}</p>
                 <i className="fa fa-thumbs-down"></i>
                 </button>
             </div>
 
-            <p className="uploader">{this.props.post.user}</p>
+            <p className="uploader">{this.state.post.user}</p>
 
-            <p className="category">{this.props.post.category}</p>
+            <p className="category">{this.state.post.category}</p>
         </div>
     );
   }

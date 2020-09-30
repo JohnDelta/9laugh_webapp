@@ -88,7 +88,7 @@ class Main extends React.Component {
 
   displayPost(e) {
     let post = this.state.posts[e.target.id.split("_")[1]];
-    this.props.updatePost(post);
+    localStorage.setItem("post", JSON.stringify(post));
     this.props.history.push("/display-post");
   }
 

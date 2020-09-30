@@ -24,7 +24,6 @@ class App extends React.Component {
     };
 
     this.updateCategory = this.updateCategory.bind(this);
-    this.updatePost = this.updatePost.bind(this);
   }
 
   updateCategory(category) {
@@ -33,13 +32,8 @@ class App extends React.Component {
     });
   }
 
-  updatePost(post) {
-    this.setState({
-      post: post
-    });
-  }
-
   render() {
+
     return(
       <Router>
         <div className="App">
@@ -60,7 +54,7 @@ class App extends React.Component {
             </Route>
 
             <Route exact path="/display-post">
-              <DisplayPost post={this.state.post} />
+              <DisplayPost />
             </Route>
 
             <Route path="/">
