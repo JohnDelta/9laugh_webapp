@@ -15,6 +15,7 @@ class Login extends React.Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleMoveBack = this.handleMoveBack.bind(this);
   }
 
   onInputChange(e) {
@@ -76,13 +77,20 @@ class Login extends React.Component {
       username: "",
       password: ""
     });
-}
+  }
+
+  handleMoveBack() {
+    this.props.history.goBack();
+  }
 
   render() {
     return(
       <div className="Login">
         <div>
           <div className="title">
+            <button onClick={this.handleMoveBack}>
+              <i className="fa fa-arrow-left" />
+            </button>
             Login
           </div>
           <div className="error">

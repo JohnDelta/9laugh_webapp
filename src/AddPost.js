@@ -1,19 +1,29 @@
 import React from 'react';
 import './AddPost.css';
-import {withRouter} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 
 class AddPost extends React.Component {
   constructor() {
     super();
-    this.state = {
+
+    if(localStorage.getItem("token") !== null) { // CHANGE IT LATER
+      this.state = {
+        redirect: <Redirect push to={"/"} />
+      };
+    } else {
+      this.state = {
         defaultImg: require(`${"./test_img.png"}`),
         category: "funny",
         user: "user",
-        title: "photo title"
-    };
+        title: "photo title",
+        redirect: []
+      };
+    }
+
     this.onImageChange = this.onImageChange.bind(this);
     this.onFieldChange = this.onFieldChange.bind(this);
     this.handleUpload = this.handleUpload.bind(this);
+    this.handleMoveBack = this.handleMoveBack.bind(this);
   }
 
   handleUpload() {
@@ -50,16 +60,24 @@ class AddPost extends React.Component {
     }
   }
 
+  handleMoveBack() {
+    this.props.history.goBack();
+  }
+
   render() {
     return(
       <div className="AddPost">
+
+        {this.state.redirect}
         
         <div className="post">
+          <button className="go-back" onClick={this.handleMoveBack}>
+            <i className="fa fa-arrow-left" />
+          </button>
+          
           <textarea id="new_post_title" className="title" defaultValue={this.state.title} onChange={this.onFieldChange} />
 
           <img src={this.state.defaultImg} />
-
-          <p className="uploader">{this.state.user}</p>
 
           <select className="category" id="new_post_category" defaultValue={this.state.category} onChange={this.onFieldChange}>
               <option value="news">news</option>

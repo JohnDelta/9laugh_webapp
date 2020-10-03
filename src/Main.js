@@ -8,7 +8,7 @@ class Main extends React.Component {
    
     this.state = {
       popularity: "popular",
-      category: "",
+      category: localStorage.getItem("category"),
       posts: [
         {
           "postId": 0,
@@ -39,9 +39,9 @@ class Main extends React.Component {
   }
 
   componentDidUpdate() {
-    if(this.props.category !== this.state.category) {
+    if(localStorage.getItem("category") !== this.state.category) {
       this.setState({
-        category: this.props.category
+        category: localStorage.getItem("category")
       });
     }
 

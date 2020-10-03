@@ -16,6 +16,7 @@ class Create extends React.Component {
 
     this.onInputChange = this.onInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleMoveBack = this.handleMoveBack.bind(this);
   }
 
   onInputChange(e) {
@@ -78,7 +79,7 @@ class Create extends React.Component {
                 password: "",
                 password2: ""
               });
-              this.props.history.push("/login");
+              //this.props.history.push("/login"); // account created
           }
       } catch (error) {
           console.error('Error:', error);
@@ -97,11 +98,18 @@ class Create extends React.Component {
 
 }
 
+  handleMoveBack() {
+    this.props.history.goBack();
+  }
+
   render() {
     return(
       <div className="Create">
         <div>
           <div className="title">
+            <button onClick={this.handleMoveBack}>
+              <i className="fa fa-arrow-left" />
+            </button>
             Create Account
           </div>
           <div className="error">

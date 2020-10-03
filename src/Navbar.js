@@ -25,7 +25,7 @@ class Navbar extends React.Component {
   
   updateCategory(e) {
     let category = e.target.id.split("_")[1];
-    this.props.updateCategory(category);
+    localStorage.setItem("category", category);
     this.toggleNavbar();
     this.props.history.push("/");
 

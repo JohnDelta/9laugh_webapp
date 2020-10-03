@@ -27,6 +27,7 @@ class DisplayPost extends React.Component {
       };
     }
 
+    this.handleMoveBack = this.handleMoveBack.bind(this);
     this.mappedPost = this.mappedPost.bind(this);
   }
 
@@ -45,12 +46,19 @@ class DisplayPost extends React.Component {
     //check if you can upvote-dwonvote the postId - user record in db
   }
 
+  handleMoveBack() {
+    this.props.history.goBack();
+  }
+
   mappedPost() {
     return (
         <div className="post">
             {this.state.redirect}
 
             <p className="title">
+                <button onClick={this.handleMoveBack}>
+                  <i className="fa fa-arrow-left" />
+                </button>
                 {this.state.post.title}
             </p>
 

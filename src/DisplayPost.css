@@ -35,10 +35,21 @@
 
 .DisplayPost .post .title {
     grid-area: title;
-    width: 100%;
     font-size: 20px;
     word-wrap: break-word;
     padding: 4px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.DisplayPost .post .title button {
+    background-color: transparent;
+    margin-right: 5px;
+}
+
+.DisplayPost .post .title button i {
+    font-size: 18px;
 }
 
 .DisplayPost .post img {

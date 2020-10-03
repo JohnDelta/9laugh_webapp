@@ -35,6 +35,17 @@
     margin-top: 20px;
     padding: 20px;
     font-size: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.Create .title button {
+    background-color: transparent;
+    margin-right: 5px;
+}
+
+.Create .title button i {
+    font-size: 18px;
 }
 
 .Create .error {

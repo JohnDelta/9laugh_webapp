@@ -23,14 +23,24 @@
     background-color: #212D40;
     display: grid;
     grid-template-areas:
-        "uploader category" 
-        "title title"
-        "img img"
-        "file file"
+        "back . category" 
+        "title title title"
+        "img img img"
+        "file file file"
     ;
     row-gap: 5px;
     margin: 20px;
     padding: 10px;
+}
+
+.AddPost .post .go-back {
+    grid-area: back;
+    background-color: transparent;
+    width: 25px;
+}
+
+.AddPost .post .go-back i {
+    font-size: 18px;
 }
 
 .AddPost .post .title {
@@ -47,12 +57,6 @@
     grid-area: img;
     width: 100%;
     object-fit: cover;
-}
-
-.AddPost .post .uploader {
-    grid-area: uploader;
-    padding: 4px;
-    justify-self: start;
 }
 
 .AddPost .post .category {

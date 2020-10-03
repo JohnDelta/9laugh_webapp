@@ -35,6 +35,17 @@
     margin-top: 20px;
     padding: 20px;
     font-size: 25px;
+    display: flex;
+    align-items: center;
+}
+
+.Login .title button {
+    background-color: transparent;
+    margin-right: 5px;
+}
+
+.Login .title button i {
+    font-size: 18px;
 }
 
 .Login .error {
