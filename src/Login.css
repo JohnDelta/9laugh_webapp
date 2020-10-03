@@ -51,6 +51,7 @@
 .Login .error {
     padding: 15px;
     font-size: 18px;
+    color: #f86624;
 }
 
 .Login .input {

@@ -115,18 +115,89 @@
     justify-self: end;
 }
 
-.add-post-button {
-    width: 45px;
-    height: 45px;
-    border-radius: 50%;
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    font-size: 35px;
-    color: #00d9fb;;
-    background-color: #212D40;
+.DisplayPost .comments-div {
+    display: flex;
+    flex-direction: column;
 }
 
-.add-post-button:active {
+.DisplayPost .comments-div .title {
+    font-size: 16px;
+    margin-left: 10px;
+}
+
+.DisplayPost .comments-div .comment-div {
+    display: grid;
+    grid-template-areas: 
+        "img username date"
+        "img comment comment"
+        "img comment comment";
+    grid-template-columns: 60px minmax(50px, 100%);
+    margin-bottom: 20px;
+    background-color: #212D40;
+    gap: 5px;
+    margin: 10px;
+    padding: 5px;
+}
+
+.DisplayPost .comments-div .comment-div .username {
+    grid-area: username;
+    font-size: 15px;
+}
+
+.DisplayPost .comments-div .comment-div img {
+    grid-area: img;
+    width: 50px;
+    height: 50px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.DisplayPost .comments-div .comment-div .date {
+    grid-area: date;
+    font-size: 14px;
+    justify-self: end;
+}
+
+.DisplayPost .comments-div .comment-div .comment {
+    grid-area: comment;
+    padding: 5px;
+    word-wrap: break-word;
+    background-color: #364156;
+    font-size: 14px;
+}
+
+.DisplayPost .comments-div .new-comment-div {
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    background-color: #212D40;
+    padding: 5px;
+}
+
+.DisplayPost .comments-div .new-comment-div .title {
+    font-size: 16px;
+    margin-bottom: 5px;
+}
+
+.DisplayPost .comments-div .new-comment-div .comment {
+    background-color: #364156;
+    color: #00d9fb;
+    resize: vertical;
+    outline: none;
+    margin-bottom: 5px;
+    padding: 4px;
+}
+
+.DisplayPost .comments-div .new-comment-div .comment::placeholder {
+    color: #00d9fb;
+}
+
+.DisplayPost .comments-div .new-comment-div button {
+    background-color: #364156;
+    font-size: 20px;
+    padding: 4px;
+}
+
+.DisplayPost .comments-div .new-comment-div button:active {
     color: #f86624;
 }

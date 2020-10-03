@@ -9,7 +9,33 @@ class Main extends React.Component {
     this.state = {
       popularity: "popular",
       category: localStorage.getItem("category"),
-      posts: [
+      posts: []
+    }
+
+    this.getPosts = this.getPosts.bind(this);
+    this.mappedPosts = this.mappedPosts.bind(this);
+    this.handleVote = this.handleVote.bind(this);
+    this.changePopularity = this.changePopularity.bind(this);
+    this.addPost = this.addPost.bind(this);
+    this.displayPost = this.displayPost.bind(this);
+  }
+
+  componentDidMount() {
+    this.getPosts();
+  }
+
+  componentDidUpdate() {
+    if(localStorage.getItem("category") !== this.state.category) {
+      this.setState({
+        category: localStorage.getItem("category")
+      });
+      this.getPosts();
+    }
+  }
+  
+  getPosts() {
+    this.setState({
+      posts:[
         {
           "postId": 0,
           "title": "random title",
@@ -29,25 +55,8 @@ class Main extends React.Component {
           "category": "funny"
         },
       ]
-    }
-
-    this.mappedPosts = this.mappedPosts.bind(this);
-    this.handleVote = this.handleVote.bind(this);
-    this.changePopularity = this.changePopularity.bind(this);
-    this.addPost = this.addPost.bind(this);
-    this.displayPost = this.displayPost.bind(this);
+    });
   }
-
-  componentDidUpdate() {
-    if(localStorage.getItem("category") !== this.state.category) {
-      this.setState({
-        category: localStorage.getItem("category")
-      });
-    }
-
-    // call the change posts function
-  }
-  
 
   changePopularity(e) {
     let popularity = e.target.id.split("_")[1];
@@ -64,7 +73,7 @@ class Main extends React.Component {
       }
     });
 
-    // call the change posts function
+    this.getPosts();
   }
 
   handleVote(e) {

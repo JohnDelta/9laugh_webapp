@@ -17,18 +17,49 @@ class DisplayPost extends React.Component {
             "user": "",
             "category": ""
         },
-        redirect: <Redirect push to={"/"} />
+        comments: [],
+        redirect: <Redirect push to={"/"} />,
+        userComment: ""
       };
     } else {
       let post = JSON.parse(localStorage.getItem("post"));
       this.state = {
         post: post,
-        redirect: []
+        comments: [],
+        redirect: [],
+        userComment: ""
       };
     }
 
+    this.onUserCommentChange = this.onUserCommentChange.bind(this);
+    this.getComments = this.getComments.bind(this);
     this.handleMoveBack = this.handleMoveBack.bind(this);
     this.mappedPost = this.mappedPost.bind(this);
+    this.mappedComments = this.mappedComments.bind(this);
+    this.handleCommentUpload = this.handleCommentUpload.bind(this);
+  }
+
+  componentDidMount() {
+    this.setState({
+      comments: this.getComments()
+    });
+  }
+
+  getComments() {
+    return([{
+      "commentId": 0,
+      "username": "user",
+      "comment": "hahahah wtf is this omg and i thought in the begining that someone was on the phone",
+      "date": 234,
+      "mediaSource": "./test_img.png"
+    },
+    {
+      "commentId": 1,
+      "username": "user2",
+      "comment": "I don't like it",
+      "date": 23432,
+      "mediaSource": "./test_img.png"
+    }]);
   }
 
   handleVote(e) {
@@ -48,6 +79,17 @@ class DisplayPost extends React.Component {
 
   handleMoveBack() {
     this.props.history.goBack();
+  }
+
+  handleCommentUpload() {
+    console.log("upload comment");
+    console.log("send: " + this.state.userComment);
+  }
+
+  onUserCommentChange(e) {
+    this.setState({
+      userComment: e.target.value
+    });
   }
 
   mappedPost() {
@@ -83,11 +125,57 @@ class DisplayPost extends React.Component {
     );
   }
 
+  mappedComments() {
+    let comments = [];
+
+    if(this.state.comments.length < 1) {
+      comments.push(
+        <div className="comment-div" key="mapped_comment_0">
+          <div className="date" style={{"marginTop":"5px"}}>No comments yet</div>
+        </div>
+      );
+    } else {
+      this.state.comments.forEach((comment, cIndex) => {
+        comments.push(
+          <div className="comment-div" key={"mapped_comment_key_"+this.state.post.postId+"_"+cIndex}>
+            <img src={require(`${comment.mediaSource}`)} />
+            <div className="date">
+              {comment.date}
+            </div>
+            <div className="username">
+              {comment.username}
+            </div>
+            <div className="comment">
+              {comment.comment}
+            </div>
+          </div>
+        );   
+      });
+    }
+
+    comments.push(<div className="title" key="mapped_comment_key_title_0">New comment</div>);
+    comments.push(
+      <div className="new-comment-div" key="mapped_comment_key_last_0">
+        <textarea className="comment" placeholder="comment" onChange={this.onUserCommentChange} ></textarea>
+        <button onClick={this.handleCommentUpload} >upload</button>
+      </div>
+    );
+
+    return( 
+      <div className="comments-div">
+        <div className="title">Comments</div>
+        {comments}
+      </div>);
+  }
+
   render() {
     let post = this.mappedPost();
+    let comments = this.mappedComments();
+
     return(
       <div className="DisplayPost">
         {post}
+        {comments}
       </div>
     );
   }

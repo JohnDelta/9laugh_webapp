@@ -48,9 +48,17 @@
     font-size: 18px;
 }
 
+.Create img {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
 .Create .error {
     padding: 15px;
     font-size: 18px;
+    color: #f86624;
 }
 
 .Create .input {

@@ -11,12 +11,35 @@ class Create extends React.Component {
       username: "",
       password: "",
       password2: "",
-      error: ""
+      error: "",
+      defaultImg: require(`${"./test_img.png"}`)
     };
 
+    this.onImageChange = this.onImageChange.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleMoveBack = this.handleMoveBack.bind(this);
+  }
+
+  onImageChange(e) {
+    if(e.target.files[0]) {
+
+      var file = e.target.files[0];
+      var reader = new FileReader();
+      var url = reader.readAsDataURL(file);
+
+      reader.onloadend = function (e) {
+        this.setState({
+          defaultImg: [reader.result]
+        });
+      }.bind(this);
+
+    } else {
+        URL.revokeObjectURL(this.state.defaultImg); // free memory from link
+        this.setState({
+            defaultImg: require(`${"./test_img.png"}`)
+        });
+    }
   }
 
   onInputChange(e) {
@@ -95,8 +118,7 @@ class Create extends React.Component {
       });
 
     }
-
-}
+  }
 
   handleMoveBack() {
     this.props.history.goBack();
@@ -112,6 +134,8 @@ class Create extends React.Component {
             </button>
             Create Account
           </div>
+          <img src={this.state.defaultImg} />
+          <input type="file" onChange={this.onImageChange} />
           <div className="error">
             {this.state.error}
           </div>
