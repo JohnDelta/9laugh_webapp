@@ -11,7 +11,7 @@ class DisplayPost extends React.Component {
         post: {
             "postId": 0,
             "title": "",
-            "mediaSource": "./test_img.png",
+            "mediaSource": "./default.png",
             "upvotes": 0,
             "downvotes": 0,
             "user": "",
@@ -51,14 +51,14 @@ class DisplayPost extends React.Component {
       "username": "user",
       "comment": "hahahah wtf is this omg and i thought in the begining that someone was on the phone",
       "date": 234,
-      "mediaSource": "./test_img.png"
+      "mediaSource": "./default.png"
     },
     {
       "commentId": 1,
       "username": "user2",
       "comment": "I don't like it",
       "date": 23432,
-      "mediaSource": "./test_img.png"
+      "mediaSource": "./default.png"
     }]);
   }
 

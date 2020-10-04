@@ -73,6 +73,7 @@
     padding: 4px;
     border: none;
     margin-bottom: 10px;
+    color: #11151C;
 }
 
 .Login .input > input[type="password"] {
@@ -81,6 +82,7 @@
     padding: 4px;
     border: none;
     margin-bottom: 10px;
+    color: #11151C;
 }
 
 .Login .login-button {

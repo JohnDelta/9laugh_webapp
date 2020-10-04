@@ -12,7 +12,7 @@ class AddPost extends React.Component {
       };
     } else {
       this.state = {
-        defaultImg: require(`${"./test_img.png"}`),
+        defaultImg: require(`${"./default.png"}`),
         category: "funny",
         user: "user",
         title: "photo title",
@@ -55,7 +55,7 @@ class AddPost extends React.Component {
     } else {
         URL.revokeObjectURL(this.state.defaultImg); // free memory from link
         this.setState({
-            defaultImg: require(`${"./test_img.png"}`)
+            defaultImg: require(`${"./default.png"}`)
         });
     }
   }

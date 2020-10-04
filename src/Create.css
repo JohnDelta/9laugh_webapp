@@ -81,6 +81,7 @@
     padding: 4px;
     border: none;
     margin-bottom: 10px;
+    color: #11151C;
 }
 
 .Create .input > input[type="password"] {
@@ -89,6 +90,7 @@
     padding: 4px;
     border: none;
     margin-bottom: 10px;
+    color: #11151C;
 }
 
 .Create .create-button {
