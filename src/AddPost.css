@@ -84,6 +84,6 @@
     width: 100%;
     text-align: center;
     color: #f86624;
-    margin-top: 20px;
-    font-size: 18px;
+    font-size: 20px;
+    transform: translateY(20px);
 }

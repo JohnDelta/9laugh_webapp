@@ -33,29 +33,33 @@ class Main extends React.Component {
     }
   }
   
-  getPosts() {
-    this.setState({
-      posts:[
-        // {
-        //   "postId": 0,
-        //   "title": "random title",
-        //   "mediaSource": "./test_img.png",
-        //   "upvotes": 12,
-        //   "downvotes": 23,
-        //   "user": "johndelta",
-        //   "category": "funny"
-        // },
-        // {
-        //   "postId": 2,
-        //   "title": "other title",
-        //   "mediaSource": "./test_img.png",
-        //   "upvotes": 347,
-        //   "downvotes": 233,
-        //   "user": "johndelta",
-        //   "category": "funny"
-        // },
-      ]
-    });
+  async getPosts() {
+    const url = 'http://localhost:8082/api/post/get/new';
+    try {
+        let bearer = 'Bearer ' + `${localStorage.getItem("token")}`;
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': bearer,
+                'Content-type': 'application/json'
+            }
+        });
+        
+        if(response.status !== 200) {
+            console.log("error fetching posts");
+        }
+        else if (response.status === 200) {
+          //console.log(response);
+          // response.json().then((res)=>{
+          //   console.log(res);
+          //   // this.setState({
+          //   //   posts: res
+          //   // });
+          // });
+        }
+    } catch (error) {
+      console.log("error fetching posts : "+error);
+    }
   }
 
   changePopularity(e) {

@@ -18,7 +18,7 @@ class AddPost extends React.Component {
         category: "funny",
         user: "user",
         title: "Add an interesting title...",
-        error: "eror",
+        error: "",
         redirect: []
       };
     }
@@ -49,11 +49,11 @@ class AddPost extends React.Component {
     formData.append("title", this.state.title);
 
     try {
+      let bearer = 'Bearer ' + `${localStorage.getItem("token")}`;
       const response = await fetch(url, {
           method: 'POST',
           headers: {
-              'Authorization': localStorage.getItem("token"),
-              'Accept': 'application/json',
+              'Authorization': bearer
           },
           body: formData
       });
@@ -68,13 +68,12 @@ class AddPost extends React.Component {
         this.setState({
           error: ""
         });
-        console.log("post uploaded");
-        //this.props.history.push("/");
+        this.props.history.push("/");
       }
     } catch (error) {
       this.setState({
         error: "Unable to upload post"
-      });
+      });console.log(error);
     } finally {
       this.setState({
         title: "",
