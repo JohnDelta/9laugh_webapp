@@ -1,5 +1,6 @@
 import React from 'react';
 import './Create.css';
+import DefaultResourseLinks from './DefaultRecourseLinks';
 
 import {withRouter} from "react-router-dom";
 
@@ -12,7 +13,7 @@ class Create extends React.Component {
       password: "",
       password2: "",
       error: "",
-      defaultImg: require(`${"./default.png"}`)
+      defaultImg: DefaultResourseLinks.getDefaultUserImageLink()
     };
 
     this.onImageChange = this.onImageChange.bind(this);
@@ -37,7 +38,7 @@ class Create extends React.Component {
     } else {
         URL.revokeObjectURL(this.state.defaultImg); // free memory from link
         this.setState({
-            defaultImg: require(`${"./default.png"}`)
+            defaultImg: DefaultResourseLinks.getDefaultUserImageLink()
         });
     }
   }
@@ -73,67 +74,54 @@ class Create extends React.Component {
       });
     } else {
       const url = 'http://localhost:8082/api/user/add';
-      //const data = {"username":this.state.username, "password":this.state.password};
       const formData = new FormData();
-      // let inputMIME = this.state.defaultImg.split(',')[0].split(':')[1].split(';')[0]; 
-      // let fileExtension = this.state.defaultImg.split(";")[0].split("/")[1];
-      // let fileToBinaryDecoded = unescape(this.state.defaultImg.split(",")[1]);
-      // // Computation of new string in which hexadecimal 
-      // // escape sequences are replaced by the character  
-      // // it represents 
 
-      // // Store the bytes of the string to a typed array 
-      // let blobArray = []; 
-      // for (let index = 0; index < fileToBinaryDecoded.length; index++) { 
-      //     blobArray.push(fileToBinaryDecoded.charCodeAt(index)); 
-      // } 
+      // Only if user gives image read it. Else the default will be used by the API
+      var file = "";
+      if("files" in document.getElementById("file_create_image_id")) {
+        var file = document.getElementById("file_create_image_id").files[0];
+        var fileName = file.name;
+        var extensions = ["png", "jpg", "jpeg"];
+        var fileExtension = fileName.split(".").pop().toLowerCase();
+        if(extensions.includes(fileExtension)) {
+          formData.append("file", file, "image."+fileExtension);
+        }
+      }
 
-      // let blob = new Blob([blobArray], {type: inputMIME});
+      formData.append("username", this.state.username);
+      formData.append("password", this.state.password);
 
-      var file = document.getElementById("create_image_id").files[0];
-      var fileName = file.name;
-      var extensions = ["png", "jpg", "jpeg"];
-      var fileExtention = fileName.split(".").pop().toLowerCase();
-
-      if(extensions.includes(fileExtention)) {
-        formData.append("file", file, "image."+fileExtension);
-        formData.append("username", this.state.username);
-        formData.append("password", this.state.password);
-        try {
-          const response = await fetch(url, {
-              method: 'POST',
-              headers: {
-                  'Authorization': null,
-                  'Accept': 'application/json',
-              },
-              body: formData
-          });
-          
-          if(response.status !== 200) {
-              this.setState({
-                error: "Unable to create user"
-              });
-          }
-          else if (response.status === 200) {
-              this.setState({
-                error: "Account created"
-              });
-          }
-        } catch (error) {
-            console.error('Error:', error);
+      try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Authorization': null,
+                'Accept': 'application/json',
+            },
+            body: formData
+        });
+        
+        if(response.status !== 200) {
             this.setState({
               error: "Unable to create user"
             });
-        } finally {
-          this.setState({
-            username: "",
-            password: "",
-            password2: ""
-          });
         }
-      } else {
+        else if (response.status === 200) {
+            this.setState({
+              error: "Account created"
+            });
+            document.getElementById("file_create_image_id").value = null;
+        }
+      } catch (error) {
+          console.error('Error:', error);
+          this.setState({
+            error: "Unable to create user"
+          });
+      } finally {
         this.setState({
-          error: "Wrong file format"
+          username: "",
+          password: "",
+          password2: ""
         });
       }
     }
@@ -153,8 +141,8 @@ class Create extends React.Component {
             </button>
             Create Account
           </div>
-          <img id="create_img_id" src={this.state.defaultImg} />
-          <input type="file" onChange={this.onImageChange} />
+          <img src={this.state.defaultImg} />
+          <input id="file_create_image_id" type="file" onChange={this.onImageChange} />
           <div className="error">
             {this.state.error}
           </div>

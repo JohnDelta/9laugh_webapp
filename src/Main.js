@@ -36,24 +36,24 @@ class Main extends React.Component {
   getPosts() {
     this.setState({
       posts:[
-        {
-          "postId": 0,
-          "title": "random title",
-          "mediaSource": "./test_img.png",
-          "upvotes": 12,
-          "downvotes": 23,
-          "user": "johndelta",
-          "category": "funny"
-        },
-        {
-          "postId": 2,
-          "title": "other title",
-          "mediaSource": "./test_img.png",
-          "upvotes": 347,
-          "downvotes": 233,
-          "user": "johndelta",
-          "category": "funny"
-        },
+        // {
+        //   "postId": 0,
+        //   "title": "random title",
+        //   "mediaSource": "./test_img.png",
+        //   "upvotes": 12,
+        //   "downvotes": 23,
+        //   "user": "johndelta",
+        //   "category": "funny"
+        // },
+        // {
+        //   "postId": 2,
+        //   "title": "other title",
+        //   "mediaSource": "./test_img.png",
+        //   "upvotes": 347,
+        //   "downvotes": 233,
+        //   "user": "johndelta",
+        //   "category": "funny"
+        // },
       ]
     });
   }
