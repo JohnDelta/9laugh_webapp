@@ -77,8 +77,7 @@ class Create extends React.Component {
       const formData = new FormData();
 
       // Only if user gives image read it. Else the default will be used by the API
-      var file = "";
-      if("files" in document.getElementById("file_create_image_id")) {
+      if(document.getElementById("file_create_image_id").files[0] !== undefined) {
         var file = document.getElementById("file_create_image_id").files[0];
         var fileName = file.name;
         var extensions = ["png", "jpg", "jpeg"];
@@ -103,7 +102,7 @@ class Create extends React.Component {
         
         if(response.status !== 200) {
             this.setState({
-              error: "Unable to create user"
+              error: "Unable to create user with username " + this.state.username
             });
         }
         else if (response.status === 200) {

@@ -34,42 +34,37 @@ class Login extends React.Component {
 
   // Handle Submit of login form
   async handleSubmit(e) {
-    const url = 'http://localhost:8082/user/login';
+    const url = 'http://localhost:8082/api/authenticate';
     const data = {"username":this.state.username, "password":this.state.password};
 
     try {
         const response = await fetch(url, {
             method: 'POST',
             headers: {
-                'Accept': 'application/json',
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
         });
         
         if(response.status !== 200) {
-            // not ok
-            console.log('Error:', await response.json());
             this.setState({
-              error: "error"
+              error: "Wrong username or password"
             });
         }
         else if (response.status === 200) {
-            const json = await response.json();
-            localStorage.setItem("token", json["token"]);
-            localStorage.setItem("user", this.state.username);
+          response.json().then((res)=>{
+            localStorage.setItem("token", res["token"]);  
             this.setState({
               error: "",
               username: "",
-              password: "",
-              password2: ""
+              password: ""
             });
             this.props.history.push("/");
+          });
         }
     } catch (error) {
-        console.error('Error:', error);
         this.setState({
-          error: "error"
+          error: "Unable to login"
         });
     }
 
@@ -100,13 +95,13 @@ class Login extends React.Component {
             <div className="icon">
               <i className="fa fa-user"></i>
             </div>
-            <input type="text" id="login_username" placeholder="user" onChange={this.onInputChange} />
+            <input type="text" id="login_username" value={this.username} placeholder="user" onChange={this.onInputChange} />
           </div>
           <div className="input">
             <div className="icon">
               <i className="fa fa-lock"></i>
             </div>
-            <input type="password" id="login_password" placeholder="user123" onChange={this.onInputChange} />
+            <input type="password" id="login_password" value={this.password} placeholder="user123" onChange={this.onInputChange} />
           </div>
           <button className="login-button" onClick={this.handleSubmit}>
             Submit

@@ -79,3 +79,11 @@
 .AddPost .upload-button:active {
     color: #f86624;
 }
+
+.AddPost .error {
+    width: 100%;
+    text-align: center;
+    color: #f86624;
+    margin-top: 20px;
+    font-size: 18px;
+}

@@ -2,20 +2,23 @@ import React from 'react';
 import './AddPost.css';
 import {Redirect, withRouter} from "react-router-dom";
 
+import DefaultResourseLinks from './DefaultRecourseLinks';
+
 class AddPost extends React.Component {
   constructor() {
     super();
 
-    if(localStorage.getItem("token") !== null) { // CHANGE IT LATER
+    if(localStorage.getItem("token") === null) {
       this.state = {
         redirect: <Redirect push to={"/"} />
       };
     } else {
       this.state = {
-        defaultImg: require(`${"./default.png"}`),
+        defaultImg: DefaultResourseLinks.getDefaultPostImageLink(),
         category: "funny",
         user: "user",
-        title: "photo title",
+        title: "Add an interesting title...",
+        error: "eror",
         redirect: []
       };
     }
@@ -26,10 +29,57 @@ class AddPost extends React.Component {
     this.handleMoveBack = this.handleMoveBack.bind(this);
   }
 
-  handleUpload() {
-      console.log("upload");
-      //upload post and gtfo
-      //this.props.history.push("/");
+  async handleUpload() {
+      
+    const url = 'http://localhost:8082/api/post/add';
+    const formData = new FormData();
+
+    // Only if user gives image read it. Else the default will be used by the API
+    if(document.getElementById("file_create_post_id").files[0] !== undefined) {
+      var file = document.getElementById("file_create_post_id").files[0];
+      var fileName = file.name;
+      var extensions = ["png", "jpg", "jpeg"];
+      var fileExtension = fileName.split(".").pop().toLowerCase();
+      if(extensions.includes(fileExtension)) {
+        formData.append("file", file, "image."+fileExtension);
+      }
+    }
+
+    formData.append("category", this.state.category);
+    formData.append("title", this.state.title);
+
+    try {
+      const response = await fetch(url, {
+          method: 'POST',
+          headers: {
+              'Authorization': localStorage.getItem("token"),
+              'Accept': 'application/json',
+          },
+          body: formData
+      });
+      
+      if(response.status !== 200) {
+          this.setState({
+            error: "Unable to upload post"
+          });
+      }
+      else if (response.status === 200) {
+        document.getElementById("file_create_post_id").value = null;
+        this.setState({
+          error: ""
+        });
+        console.log("post uploaded");
+        //this.props.history.push("/");
+      }
+    } catch (error) {
+      this.setState({
+        error: "Unable to upload post"
+      });
+    } finally {
+      this.setState({
+        title: "",
+      });
+    }
   }
 
   onFieldChange(e) {
@@ -55,7 +105,7 @@ class AddPost extends React.Component {
     } else {
         URL.revokeObjectURL(this.state.defaultImg); // free memory from link
         this.setState({
-            defaultImg: require(`${"./default.png"}`)
+            defaultImg: DefaultResourseLinks.getDefaultPostImageLink()
         });
     }
   }
@@ -69,6 +119,8 @@ class AddPost extends React.Component {
       <div className="AddPost">
 
         {this.state.redirect}
+
+        <div className="error">{this.state.error}</div>
         
         <div className="post">
           <button className="go-back" onClick={this.handleMoveBack}>
@@ -86,7 +138,7 @@ class AddPost extends React.Component {
               <option value="random">random</option>
           </select>
 
-          <input className="file" type="file" name="file" onChange={this.onImageChange} />
+          <input id="file_create_post_id" className="file" type="file" name="file" onChange={this.onImageChange} />
         </div>
 
         <button className="upload-button" onClick={this.handleUpload}>Upload</button>

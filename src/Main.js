@@ -149,7 +149,7 @@ class Main extends React.Component {
     let posts = this.mappedPosts();
 
     let addPost = [];
-    if(!localStorage.getItem("token")) {
+    if(localStorage.getItem("token")) {
       addPost.push(
         <button className="add-post-button" key="add_post_button_key" onClick={this.addPost}>
           +
