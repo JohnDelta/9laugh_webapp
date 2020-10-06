@@ -17,25 +17,16 @@ class App extends React.Component {
 
   constructor() {
     super();
-
-    if(localStorage.getItem("category") !== null) {
-      this.state = {
-        category: localStorage.getItem("category")
-      };
-    } else {
-      this.state = {
-        category: "funny"
-      };
-    }
-
+    this.state = {
+      category: ""
+    };
+    this.updateCategory = this.updateCategory.bind(this);
   }
 
-  componentDidUpdate() {
-    if(localStorage.getItem("category") !== this.state.category) {
-      this.state = {
-        category: localStorage.getItem("category")
-      };
-    }
+  updateCategory(category) {
+    this.setState({
+      category: category
+    });
   }
 
   render() {
@@ -44,7 +35,7 @@ class App extends React.Component {
       <Router>
         <div className="App">
           
-          <Navbar />
+          <Navbar updateCategory={this.updateCategory} />
 
           <Switch>
             <Route exact path="/create">

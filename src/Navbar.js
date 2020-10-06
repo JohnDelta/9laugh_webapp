@@ -6,9 +6,90 @@ class Navbar extends React.Component {
   
   constructor() {
     super();
+
+    this.state = {
+      categories: []
+    };
+
     this.updateCategory = this.updateCategory.bind(this);
     this.toggleNavbar = this.toggleNavbar.bind(this);
     this.handleLogout = this.handleLogout.bind(this);
+    this.getCategories = this.getCategories.bind(this);
+    this.mappedCategories = this.mappedCategories.bind(this);
+    this.validateUser = this.validateUser.bind(this);
+  }
+
+  componentDidMount() {
+    this.getCategories();
+    if(localStorage.getItem("token") !== null) {
+      this.validateUser();
+    }
+  }
+
+  async validateUser() {
+    let url = "http://localhost:8082/api/user/get";
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem("token")
+            }
+        });
+        
+        if(response.status !== 200) {
+          console.log("token validation failed");
+          this.handleLogout();
+        }
+        else if (response.status === 200) {
+          console.log("token ok");
+        }
+    } catch (error) {
+      console.log("token validation failed : " + error);
+      this.handleLogout();
+    }
+  }
+
+  async getCategories() {
+    let url = "http://localhost:8082/api/post/get/categories";
+    try {
+        const response = await fetch(url, {
+            method: 'POST'
+        });
+        
+        if(response.status !== 200) {
+            console.log("error fetching categories");
+        }
+        else if (response.status === 200) {
+          response.json().then((res)=>{
+            console.log("Fetched categories");
+            this.setState({
+              categories: res
+            });
+            this.props.updateCategory(res[0]);
+            localStorage.setItem("categories", JSON.stringify(res));
+          });
+        }
+    } catch (error) {
+      console.log("error fetching categories : "+error);
+    }
+  }
+
+  mappedCategories() {
+    let links = [];
+    this.state.categories.forEach((category, cIndex) => {
+      
+      let activeCategory = "";
+      if(cIndex === 0) {
+        activeCategory = "tag-active";
+      }
+
+      links.push(
+        <div className={"link tag "+activeCategory} id={"navbar_"+category} onClick={this.updateCategory} key={"link_nv_category_"+cIndex}>
+            {category}
+        </div>
+      );
+    });
+    return links;
   }
 
   toggleNavbar() {
@@ -25,7 +106,8 @@ class Navbar extends React.Component {
   
   updateCategory(e) {
     let category = e.target.id.split("_")[1];
-    localStorage.setItem("category", category);
+
+    this.props.updateCategory(category);
     this.toggleNavbar();
     this.props.history.push("/");
 
@@ -63,6 +145,9 @@ class Navbar extends React.Component {
       );
     }
 
+    let categories = [];
+    categories = this.mappedCategories();
+
     return(
       <div className="Navbar">
         <Link className="logo-div" to="/">
@@ -85,18 +170,7 @@ class Navbar extends React.Component {
             <div className="title">
               Categories
             </div>
-            <div className="link tag tag-active" id="navbar_funny" onClick={this.updateCategory}>
-              funny
-            </div>
-            <div className="link tag" id="navbar_news" onClick={this.updateCategory}>
-              news
-            </div>
-            <div className="link tag" id="navbar_random" onClick={this.updateCategory}>
-              random
-            </div>
-            <div className="link tag" id="navbar_wtf" onClick={this.updateCategory}>
-              wtf
-            </div>
+            {categories}
             <div className="title">
               Account
             </div>

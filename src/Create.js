@@ -93,6 +93,7 @@ class Create extends React.Component {
       try {
         const response = await fetch(url, {
             method: 'POST',
+            cache: 'no-cache',
             headers: {
                 'Authorization': null,
                 'Accept': 'application/json',

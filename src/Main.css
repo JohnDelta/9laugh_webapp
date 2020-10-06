@@ -59,6 +59,12 @@
     margin-top: 20px;
 }
 
+.Main .message {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
 .post .title {
     grid-area: title;
     width: 100%;

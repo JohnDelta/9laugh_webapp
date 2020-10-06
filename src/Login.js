@@ -40,6 +40,7 @@ class Login extends React.Component {
     try {
         const response = await fetch(url, {
             method: 'POST',
+            cache: 'no-cache',
             headers: {
                 'Content-Type': 'application/json',
             },
@@ -66,12 +67,12 @@ class Login extends React.Component {
         this.setState({
           error: "Unable to login"
         });
+    } finally {
+      this.setState({
+        username: "",
+        password: ""
+      });
     }
-
-    this.setState({
-      username: "",
-      password: ""
-    });
   }
 
   handleMoveBack() {

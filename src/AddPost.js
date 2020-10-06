@@ -15,7 +15,8 @@ class AddPost extends React.Component {
     } else {
       this.state = {
         defaultImg: DefaultResourseLinks.getDefaultPostImageLink(),
-        category: "funny",
+        categories: JSON.parse(localStorage.getItem("categories")),
+        category: JSON.parse(localStorage.getItem("categories"))[0],
         user: "user",
         title: "Add an interesting title...",
         error: "",
@@ -66,9 +67,9 @@ class AddPost extends React.Component {
       else if (response.status === 200) {
         document.getElementById("file_create_post_id").value = null;
         this.setState({
-          error: ""
+          error: "",
+          redirect: <Redirect push to={"/"} />
         });
-        this.props.history.push("/");
       }
     } catch (error) {
       this.setState({
@@ -114,6 +115,14 @@ class AddPost extends React.Component {
   }
 
   render() {
+
+    let categories = [];
+    this.state.categories.forEach((category, cIndex) => {
+      categories.push(
+        <option value={category} key={"category_key_"+cIndex}>{category}</option>
+      );
+    });
+
     return(
       <div className="AddPost">
 
@@ -131,10 +140,7 @@ class AddPost extends React.Component {
           <img src={this.state.defaultImg} />
 
           <select className="category" id="new_post_category" defaultValue={this.state.category} onChange={this.onFieldChange}>
-              <option value="news">news</option>
-              <option value="funny">funny</option>
-              <option value="wtf">wtf</option>
-              <option value="random">random</option>
+              {categories}
           </select>
 
           <input id="file_create_post_id" className="file" type="file" name="file" onChange={this.onImageChange} />
