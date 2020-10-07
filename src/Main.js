@@ -2,14 +2,14 @@ import React from 'react';
 import './Main.css';
 import {withRouter} from "react-router-dom";
 
-import DefaultResourseLinks from './DefaultRecourseLinks';
+import DefaultResourceLinks from './DefaultRecourseLinks';
 
 class Main extends React.Component {
   constructor() {
     super();
    
     this.state = {
-      popularity: "popular",
+      popularity: "",
       category: "",
       posts: []
     }
@@ -25,12 +25,21 @@ class Main extends React.Component {
     this.setState({
       category: this.props.category
     });
+    if(localStorage.getItem("popularity") !== null) {
+      this.setState({
+        popularity: localStorage.getItem("popularity")
+      }, () => {
+        this.getPosts();
+      });
+    }
   }
 
   componentDidUpdate(prevState) {
     if(this.props.category !== this.state.category) {
       this.setState({
         category: this.props.category
+      }, () => {
+        this.getPosts();
       });
     }
   }
@@ -44,7 +53,7 @@ class Main extends React.Component {
       url += "/popular";
     }
 
-    let body = {"category": localStorage.getItem("category")};
+    let body = {"category": this.state.category};
 
     try {
       const response = await fetch(url, {
@@ -58,27 +67,29 @@ class Main extends React.Component {
       });
       
       if(response.status === 200) {
-        response.json().then((ans)=>{
+        response.json().then((res)=>{
           this.setState({
-            posts: ans
+            posts: res
           });
-          if(ans.length !== 0) return true;
         });
+        console.log("Fetched posts");
       } else {
-        console.log("error fetching posts");
+        console.error("service post/get unavailable or bad fetch");
       }
 
     } catch (error) {
       console.log("error fetching posts : "+error);
     }
-    return false;
   }
 
   changePopularity(e) {
     let popularity = e.target.id.split("_")[1];
     this.setState({
       popularity: popularity
+    }, () => {
+      this.getPosts();
     });
+    localStorage.setItem("popularity", popularity);
 
     let items = document.querySelectorAll(".popularity-div button");
     items.forEach((item, iIndex) => {
@@ -88,22 +99,46 @@ class Main extends React.Component {
         item.classList.remove("popularity-div-button-active");
       }
     });
-    this.getPosts();
   }
 
-  handleVote(e) {
-    let args = e.target.id.split("_");
-    let operation = args[0];
-    let postId = args[1];
-    let user = args[2];
+  async handleVote(e) {
+    if(localStorage.getItem("token") !== null) {
+      let args = e.target.id.split("_");
+      let operation = args[0];
+      let postId = args[1];
+      //let user = args[2];
 
-    if(operation === "upvote") {
-      console.log("up");
-    } else if(operation === "downvote") {
-      console.log("down");
+      let url = "http://localhost:8082/api/comment";
+      if(operation === "upvote") {
+        url += "/upvote";
+      } else if(operation === "downvote") {
+        url += "/downvote";
+      }
+
+      let body = {"postId":postId};
+
+      try {
+        const response = await fetch(url, {
+            method: 'POST',
+            cache: 'no-cache',
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem("token"),
+              'Accept': 'application/json',
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        
+        if(response.status === 200) {
+          console.log("post upvoted/downvoted");
+        } else {
+          console.error("service post/get unavailable or bad fetch");
+        }
+
+      } catch (error) {
+        console.log("error fetching posts : "+error);
+      }
     }
-
-    //check if you can upvote-dwonvote the postId - user record in db
   }
 
   addPost() {
@@ -124,9 +159,9 @@ class Main extends React.Component {
 
       let imagePath = "";
       if(post.mediaSource === "post_default.jpg") {
-        imagePath = DefaultResourseLinks.getDefaultResourceLink() + "/" + post.mediaSource;
+        imagePath = DefaultResourceLinks.getDefaultResourceLink() + "/" + post.mediaSource;
       } else {
-        imagePath = DefaultResourseLinks.getUploadResourseLink() + "/" + post.mediaSource;
+        imagePath = DefaultResourceLinks.getUploadResourseLink() + "/" + post.mediaSource;
       }
 
       postsDiv.push(
@@ -174,12 +209,20 @@ class Main extends React.Component {
       );
     }
 
+    let popularityButtons = [];
+    if(this.state.popularity === "popular") {
+      popularityButtons.push(<button className="popularity-div-button-active" id="popularity_popular" onClick={this.changePopularity}>Popular</button>);
+      popularityButtons.push(<button id="popularity_new" onClick={this.changePopularity}>New</button>);
+    } else {
+      popularityButtons.push(<button id="popularity_popular" onClick={this.changePopularity}>Popular</button>);
+      popularityButtons.push(<button className="popularity-div-button-active" id="popularity_new" onClick={this.changePopularity}>New</button>);
+    }
+
     return(
       <div className="Main">
         
         <div className="popularity-div">
-          <button className="popularity-div-button-active" id="popularity_popular" onClick={this.changePopularity}>Popular</button>
-          <button id="popularity_new" onClick={this.changePopularity}>New</button>
+          {popularityButtons}
         </div>
 
         <div className="posts-div">

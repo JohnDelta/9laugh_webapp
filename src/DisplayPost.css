@@ -139,6 +139,13 @@
     padding: 5px;
 }
 
+.DisplayPost .comments-div .comment-div .message {
+    grid-column: 1/4;
+    grid-row: 1/4;
+    text-align: center;
+    padding: 6px;
+}
+
 .DisplayPost .comments-div .comment-div .username {
     grid-area: username;
     font-size: 15px;

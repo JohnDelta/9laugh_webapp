@@ -60,7 +60,7 @@ class Login extends React.Component {
               username: "",
               password: ""
             });
-            this.props.history.push("/");
+            this.handleMoveBack();
           });
         }
     } catch (error) {
