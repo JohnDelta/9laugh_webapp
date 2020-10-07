@@ -13,16 +13,17 @@ class DisplayPost extends React.Component {
         postId: -1,
         comments: [],
         post: {
-          "postId":-1,
-          "title":"",
-          "category":"",
-          "user": {
-            "userId": "",
-            "username":"",
-            "mediaSource":""
+          postId:-1,
+          title:"",
+          category:"",
+          mediaSource: DefaultResourceLinks.getDefaultPostImageLink(),
+          user: {
+            userId: "",
+            username:"",
+            mediaSource:"user_default.png"
           },
-          "upvotes": 0,
-          "downvotes": 0
+          upvotes: 0,
+          downvotes: 0
         },
         redirect: <Redirect push to={"/"} />,
         userComment: ""
@@ -31,12 +32,16 @@ class DisplayPost extends React.Component {
       this.state = {
         postId: localStorage.getItem("postId"),
         comments: [],
-        post: {user:{}},
+        post: {
+          mediaSource: "post_default.jpg", 
+          user:{}
+        },
         redirect: [],
         userComment: ""
       };
     }
 
+    this.handleVote = this.handleVote.bind(this);
     this.onUserCommentChange = this.onUserCommentChange.bind(this);
     this.getComments = this.getComments.bind(this);
     this.getPost = this.getPost.bind(this);

@@ -22,18 +22,17 @@ class Main extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      category: this.props.category
-    });
     if(localStorage.getItem("popularity") !== null) {
       this.setState({
-        popularity: localStorage.getItem("popularity")
+        popularity: localStorage.getItem("popularity"),
+        category: this.props.category
       }, () => {
         this.getPosts();
       });
     } else {
       this.setState({
-        popularity: localStorage.setItem("popularity")
+        popularity: localStorage.setItem("popularity"),
+        category: this.props.category
       }, () => {
         this.getPosts();
       });
