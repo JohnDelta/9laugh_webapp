@@ -108,10 +108,10 @@ class Main extends React.Component {
       let postId = args[1];
       //let user = args[2];
 
-      let url = "http://localhost:8082/api/comment";
+      let url = "http://localhost:8082/api/post";
       if(operation === "upvote") {
         url += "/upvote";
-      } else if(operation === "downvote") {
+      } else {
         url += "/downvote";
       }
 
@@ -120,7 +120,6 @@ class Main extends React.Component {
       try {
         const response = await fetch(url, {
             method: 'POST',
-            cache: 'no-cache',
             headers: {
               'Authorization': 'Bearer ' + localStorage.getItem("token"),
               'Accept': 'application/json',
@@ -130,7 +129,7 @@ class Main extends React.Component {
         });
         
         if(response.status === 200) {
-          console.log("post upvoted/downvoted");
+          this.getPosts();
         } else {
           console.error("service post/get unavailable or bad fetch");
         }
@@ -174,12 +173,12 @@ class Main extends React.Component {
           
           <div className="vote-div">
             <button id={"upvote_"+post.postId+"_"+post.user.userId} onClick={this.handleVote}>
-              <p className="votes">{post.upvotes}</p>
+              <p className="votes" key={post.upvotes}>{post.upvotes}</p>
               <i className="fa fa-thumbs-up"></i>
             </button>
 
             <button id={"downvote_"+post.postId+"_"+post.user.userId} onClick={this.handleVote}>
-              <p className="votes">{post.downvotes}</p>
+              <p className="votes" key={post.downvotes}>{post.downvotes}</p>
               <i className="fa fa-thumbs-down"></i>
             </button>
           </div>
@@ -211,11 +210,11 @@ class Main extends React.Component {
 
     let popularityButtons = [];
     if(this.state.popularity === "popular") {
-      popularityButtons.push(<button className="popularity-div-button-active" id="popularity_popular" onClick={this.changePopularity}>Popular</button>);
-      popularityButtons.push(<button id="popularity_new" onClick={this.changePopularity}>New</button>);
+      popularityButtons.push(<button key={"mpb1"} className="popularity-div-button-active" id="popularity_popular" onClick={this.changePopularity}>Popular</button>);
+      popularityButtons.push(<button key={"mpb2"} id="popularity_new" onClick={this.changePopularity}>New</button>);
     } else {
-      popularityButtons.push(<button id="popularity_popular" onClick={this.changePopularity}>Popular</button>);
-      popularityButtons.push(<button className="popularity-div-button-active" id="popularity_new" onClick={this.changePopularity}>New</button>);
+      popularityButtons.push(<button key={"mpb1"} id="popularity_popular" onClick={this.changePopularity}>Popular</button>);
+      popularityButtons.push(<button key={"mpb2"} className="popularity-div-button-active" id="popularity_new" onClick={this.changePopularity}>New</button>);
     }
 
     return(
