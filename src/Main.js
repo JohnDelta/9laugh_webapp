@@ -11,7 +11,8 @@ class Main extends React.Component {
     this.state = {
       popularity: "",
       category: "",
-      posts: []
+      posts: [],
+      pageNumber: 0
     }
 
     this.getPosts = this.getPosts.bind(this);
@@ -19,6 +20,7 @@ class Main extends React.Component {
     this.changePopularity = this.changePopularity.bind(this);
     this.addPost = this.addPost.bind(this);
     this.displayPost = this.displayPost.bind(this);
+    this.handlePageMove = this.handlePageMove.bind(this);
   }
 
   componentDidMount() {
@@ -38,9 +40,17 @@ class Main extends React.Component {
       });
       localStorage.setItem("popularity", "popular");
     }
+
+    if(localStorage.getItem("pageNumber") === null) {
+      localStorage.setItem("pageNumber", "0");
+    } else {
+      this.setState({
+        pageNumber: Number(localStorage.getItem("pageNumber"))
+      });
+    }
   }
 
-  componentDidUpdate(prevState) {
+  componentDidUpdate() {
     if(this.props.category !== this.state.category) {
       this.setState({
         category: this.props.category
@@ -91,11 +101,13 @@ class Main extends React.Component {
   changePopularity(e) {
     let popularity = e.target.id.split("_")[1];
     this.setState({
-      popularity: popularity
+      popularity: popularity,
+      pageNumber: 0
     }, () => {
+      localStorage.setItem("pageNumber", this.state.pageNumber);
+      localStorage.setItem("popularity", popularity);
       this.getPosts();
     });
-    localStorage.setItem("popularity", popularity);
 
     let items = document.querySelectorAll(".popularity-div button");
     items.forEach((item, iIndex) => {
@@ -156,53 +168,94 @@ class Main extends React.Component {
     this.props.history.push("/display-post");
   }
 
+  handlePageMove(e) {
+    let operation = e.target.id.split("_")[2];
+    if(operation === "left") {
+      this.setState({
+        pageNumber: (Number(this.state.pageNumber) < 1) ? 0 : Number(this.state.pageNumber) - 1
+      }, ()=>{
+        localStorage.setItem("pageNumber", this.state.pageNumber);
+      });
+    } else if(operation === "right") {
+      let postStart = (Number(this.state.pageNumber) + 1) * 10;
+      
+      if(postStart < Number(this.state.posts.length)) {
+        this.setState({
+          pageNumber: Number(this.state.pageNumber) + 1
+        }, ()=>{
+          localStorage.setItem("pageNumber", this.state.pageNumber);
+        });
+      }
+    }
+  }
+
   render() {
 
     let postsDiv = [];
 
+    // pagination - find the range of posts to show - each page has 10 posts
+    let postStart = Number(this.state.pageNumber) * 10;
+    let postEnd = Number(postStart) + 10;
+
     this.state.posts.forEach((post, pIndex) => {
+      
+      if((pIndex >= postStart) && (pIndex < postEnd)) {
+        let imagePath = "";
+        if(post.mediaSource === "post_default.jpg") {
+          imagePath = DefaultResourceLinks.getDefaultResourceLink() + "/" + post.mediaSource;
+        } else {
+          imagePath = DefaultResourceLinks.getUploadResourseLink() + "/" + post.mediaSource;
+        }
 
-      let imagePath = "";
-      if(post.mediaSource === "post_default.jpg") {
-        imagePath = DefaultResourceLinks.getDefaultResourceLink() + "/" + post.mediaSource;
-      } else {
-        imagePath = DefaultResourceLinks.getUploadResourseLink() + "/" + post.mediaSource;
-      }
+        postsDiv.push(
+          <div className="post" key={"post_"+pIndex}>
+            <p className="title" onClick={this.displayPost} id={"post-title-id_"+pIndex} >
+              {post.title}
+            </p>
 
-      postsDiv.push(
-        <div className="post" key={"post_"+pIndex}>
-          <p className="title" onClick={this.displayPost} id={"post-title-id_"+pIndex} >
-            {post.title}
-          </p>
+            <img src={imagePath} onClick={this.displayPost} id={"post-image-id_"+pIndex} />
+            
+            <div className="vote-div">
+              <button id={"upvote_"+post.postId+"_"+post.user.userId} onClick={this.handleVote}>
+                <p className="votes" key={post.upvotes}>{post.upvotes}</p>
+                <i className="fa fa-thumbs-up"></i>
+              </button>
 
-          <img src={imagePath} onClick={this.displayPost} id={"post-image-id_"+pIndex} />
-          
-          <div className="vote-div">
-            <button id={"upvote_"+post.postId+"_"+post.user.userId} onClick={this.handleVote}>
-              <p className="votes" key={post.upvotes}>{post.upvotes}</p>
-              <i className="fa fa-thumbs-up"></i>
+              <button id={"downvote_"+post.postId+"_"+post.user.userId} onClick={this.handleVote}>
+                <p className="votes" key={post.downvotes}>{post.downvotes}</p>
+                <i className="fa fa-thumbs-down"></i>
+              </button>
+            </div>
+            
+            <button className="comments-button" onClick={this.displayPost} id={"comments-button-id_"+pIndex}>
+              <p>Comments</p>
+              <i className="fa fa-comments"></i>
             </button>
 
-            <button id={"downvote_"+post.postId+"_"+post.user.userId} onClick={this.handleVote}>
-              <p className="votes" key={post.downvotes}>{post.downvotes}</p>
-              <i className="fa fa-thumbs-down"></i>
-            </button>
+            <p className="uploader">{post.user.username}</p>
+
+            <p className="category">{post.category}</p>
           </div>
-          
-          <button className="comments-button" onClick={this.displayPost} id={"comments-button-id_"+pIndex}>
-            <p>Comments</p>
-            <i className="fa fa-comments"></i>
-          </button>
-
-          <p className="uploader">{post.user.username}</p>
-
-          <p className="category">{post.category}</p>
-        </div>
-      );
+        ); 
+      }
     });
 
     if(postsDiv.length === 0) {
       postsDiv = <div className="message" key={"post_msg_"}>No posts yet</div>;
+    } else {
+      if(postEnd > this.state.posts.length) {
+        postsDiv.push(
+          <div className="pagination-div" key={"pagination_id_123"}>
+            <button id="pagination_move_left" onClick={this.handlePageMove}>
+              <i className="fa fa-arrow-left"/>
+            </button>
+            <p>Page: {Number(this.state.pageNumber)+1}</p>
+            <button id="pagination_move_right" onClick={this.handlePageMove}>
+              <i className="fa fa-arrow-right" />
+            </button>
+          </div>
+        );
+      }
     }
 
     let addPost = [];

@@ -6,6 +6,7 @@ import Create from './Create';
 import Login from './Login';
 import AddPost from './AddPost';
 import DisplayPost from './DisplayPost';
+import AccountSettings from './AccountSettings';
 
 import {
   BrowserRouter as Router,
@@ -52,6 +53,10 @@ class App extends React.Component {
 
             <Route exact path="/display-post">
               <DisplayPost />
+            </Route>
+
+            <Route exact path="/account/settings">
+              <AccountSettings />
             </Route>
 
             <Route path="/">

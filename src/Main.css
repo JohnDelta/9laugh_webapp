@@ -46,6 +46,29 @@
     padding: 35px 20px 20px 20px;
 }
 
+.posts-div .pagination-div {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+.posts-div .pagination-div button {
+    width: 30px;
+    height: 25px;
+    margin: 5px;
+    background-color: transparent;
+}
+
+.posts-div .pagination-div button i {
+    pointer-events: none;
+}
+
+.posts-div .pagination-div p {
+    
+}
+
 .post {
     background-color: #212D40;
     display: grid;

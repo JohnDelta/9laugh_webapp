@@ -130,6 +130,11 @@ class Navbar extends React.Component {
     let accountMenu = [];
     if(localStorage.getItem("token")) {
       accountMenu.push(
+        <Link className="link" to="/account/settings" onClick={this.toggleNavbar} key="link_update_set_form_key">
+          Settings
+        </Link>
+      );
+      accountMenu.push(
         <div className="link" onClick={this.handleLogout} key="menu_logout_key">
           Logout
         </div>
