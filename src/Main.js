@@ -31,6 +31,13 @@ class Main extends React.Component {
       }, () => {
         this.getPosts();
       });
+    } else {
+      this.setState({
+        popularity: localStorage.setItem("popularity")
+      }, () => {
+        this.getPosts();
+      });
+      localStorage.setItem("popularity", "popular");
     }
   }
 
@@ -146,7 +153,7 @@ class Main extends React.Component {
 
   displayPost(e) {
     let post = this.state.posts[e.target.id.split("_")[1]];
-    localStorage.setItem("post", JSON.stringify(post));
+    localStorage.setItem("postId", post.postId);
     this.props.history.push("/display-post");
   }
 

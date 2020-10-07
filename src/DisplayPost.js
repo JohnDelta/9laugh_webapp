@@ -8,26 +8,30 @@ class DisplayPost extends React.Component {
   constructor() {
     super();
 
-    if(localStorage.getItem("post") === null) {
+    if(localStorage.getItem("postId") === null) {
       this.state = {
-        post: {
-            "postId": 0,
-            "title": "",
-            "mediaSource": DefaultResourceLinks.getDefaultPostImageLink,
-            "upvotes": 0,
-            "downvotes": 0,
-            "user": "",
-            "category": ""
-        },
+        postId: -1,
         comments: [],
+        post: {
+          "postId":-1,
+          "title":"",
+          "category":"",
+          "user": {
+            "userId": "",
+            "username":"",
+            "mediaSource":""
+          },
+          "upvotes": 0,
+          "downvotes": 0
+        },
         redirect: <Redirect push to={"/"} />,
         userComment: ""
       };
     } else {
-      let post = JSON.parse(localStorage.getItem("post"));
       this.state = {
-        post: post,
+        postId: localStorage.getItem("postId"),
         comments: [],
+        post: {user:{}},
         redirect: [],
         userComment: ""
       };
@@ -35,6 +39,7 @@ class DisplayPost extends React.Component {
 
     this.onUserCommentChange = this.onUserCommentChange.bind(this);
     this.getComments = this.getComments.bind(this);
+    this.getPost = this.getPost.bind(this);
     this.handleMoveBack = this.handleMoveBack.bind(this);
     this.mappedPost = this.mappedPost.bind(this);
     this.mappedComments = this.mappedComments.bind(this);
@@ -43,7 +48,37 @@ class DisplayPost extends React.Component {
   }
 
   componentDidMount() {
+    this.getPost();
     this.getComments();
+  }
+
+  async getPost() {
+    const url = "http://localhost:8082/api/post/get";
+    try {
+      const response = await fetch(url, {
+          method: 'POST',
+          cache: 'no-cache',
+          headers: {
+            'Accept': 'application/json',
+            'Content-type': 'application/json'
+          },
+          body: JSON.stringify({"postId":this.state.postId})
+      });
+      
+      if(response.status === 200) {
+        response.json().then((res)=>{
+          this.setState({
+            post: res
+          });
+        });
+        console.log("Fetched post");
+      } else {
+        console.error("service post/get unavailable or bad fetch");
+      }
+
+    } catch (error) {
+      console.log("error fetching posts : "+error);
+    }
   }
 
   async getComments() {
@@ -56,7 +91,7 @@ class DisplayPost extends React.Component {
             'Accept': 'application/json',
             'Content-type': 'application/json'
           },
-          body: JSON.stringify({"postId":this.state.post.postId})
+          body: JSON.stringify({"postId":this.state.postId})
       });
       
       if(response.status === 200) {
@@ -75,28 +110,79 @@ class DisplayPost extends React.Component {
     }
   }
 
-  handleVote(e) {
-    let args = e.target.id.split("_");
-    let operation = args[0];
-    let postId = args[1];
-    let user = args[2];
+  async handleVote(e) {
+    if(localStorage.getItem("token") !== null) {
+      let args = e.target.id.split("_");
+      let operation = args[0];
+      //let postId = args[1];
+      //let user = args[2];
 
-    if(operation === "upvote") {
-      console.log("up");
-    } else if(operation === "downvote") {
-      console.log("down");
+      let url = "http://localhost:8082/api/post";
+      if(operation === "upvote") {
+        url += "/upvote";
+      } else {
+        url += "/downvote";
+      }
+
+      let body = {"postId": localStorage.getItem("postId")};
+
+      try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem("token"),
+              'Accept': 'application/json',
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        
+        if(response.status === 200) {
+          this.getPost();
+        } else {
+          console.error("service post/get unavailable or bad fetch");
+        }
+
+      } catch (error) {
+        console.log("error fetching posts : "+error);
+      }
     }
-
-    //check if you can upvote-dwonvote the postId - user record in db
   }
 
   handleMoveBack() {
     this.props.history.goBack();
   }
 
-  handleCommentUpload() {
-    console.log("upload comment");
-    console.log("send: " + this.state.userComment);
+  async handleCommentUpload() {
+    if(localStorage.getItem("token") !== null && this.state.userComment !== "") {
+
+      let url = "http://localhost:8082/api/comment/add";
+      let body = {"postId":this.state.post.postId, "comment":this.state.userComment};
+
+      try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+              'Authorization': 'Bearer ' + localStorage.getItem("token"),
+              'Accept': 'application/json',
+              'Content-type': 'application/json'
+            },
+            body: JSON.stringify(body)
+        });
+        
+        if(response.status === 200) {
+          this.getComments();
+        } else {
+          console.error("service post/get unavailable or bad fetch");
+        }
+
+      } catch (error) {
+        console.log("error fetching posts : "+error);
+      }
+    }
+    this.setState({
+      userComment: ""
+    });
   }
 
   onUserCommentChange(e) {
@@ -132,14 +218,14 @@ class DisplayPost extends React.Component {
             <img src={imagePath} />
             
             <div className="vote-div">
-                <button id={"upvote_"+this.state.post.postId+"_"+this.state.post.user.username} onClick={this.handleVote}>
-                <p className="votes">{this.state.post.upvotes}</p>
-                <i className="fa fa-thumbs-up"></i>
+                <button id={"upvote_"+this.state.post.postId+"_In"} onClick={this.handleVote}>
+                  <p className="votes">{this.state.post.upvotes}</p>
+                  <i className="fa fa-thumbs-up"></i>
                 </button>
 
-                <button id={"downvote_"+this.state.post.postId+"_"+this.state.post.user.username} onClick={this.handleVote}>
-                <p className="votes">{this.state.post.downvotes}</p>
-                <i className="fa fa-thumbs-down"></i>
+                <button id={"downvote_"+this.state.post.postId+"_In"} onClick={this.handleVote}>
+                  <p className="votes">{this.state.post.downvotes}</p>
+                  <i className="fa fa-thumbs-down"></i>
                 </button>
             </div>
 
@@ -161,14 +247,22 @@ class DisplayPost extends React.Component {
       );
     } else {
       this.state.comments.forEach((comment, cIndex) => {
+        
+        let imagePath = "";
+        if(comment.user.mediaSource === "user_default.png") {
+          imagePath = DefaultResourceLinks.getDefaultResourceLink() + "/" + comment.user.mediaSource;
+        } else {
+          imagePath = DefaultResourceLinks.getUploadResourseLink() + "/" + comment.user.mediaSource;
+        }
+
         comments.push(
           <div className="comment-div" key={"mapped_comment_key_"+this.state.post.postId+"_"+cIndex}>
-            <img src={require(`${comment.mediaSource}`)} />
+            <img src={imagePath} />
             <div className="date">
               {comment.date}
             </div>
             <div className="username">
-              {comment.username}
+              {comment.user.username}
             </div>
             <div className="comment">
               {comment.comment}
@@ -182,7 +276,7 @@ class DisplayPost extends React.Component {
     if(localStorage.getItem("token") !== null) {
       comments.push(
         <div className="new-comment-div" key="mapped_comment_key_last_0">
-          <textarea className="comment" placeholder="comment" onChange={this.onUserCommentChange} ></textarea>
+          <textarea className="comment" value={this.state.userComment} placeholder="comment" onChange={this.onUserCommentChange} ></textarea>
           <button onClick={this.handleCommentUpload} >upload</button>
         </div>
       );
