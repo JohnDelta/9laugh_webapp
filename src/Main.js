@@ -243,19 +243,17 @@ class Main extends React.Component {
     if(postsDiv.length === 0) {
       postsDiv = <div className="message" key={"post_msg_"}>No posts yet</div>;
     } else {
-      if(postEnd > this.state.posts.length) {
-        postsDiv.push(
-          <div className="pagination-div" key={"pagination_id_123"}>
-            <button id="pagination_move_left" onClick={this.handlePageMove}>
-              <i className="fa fa-arrow-left"/>
-            </button>
-            <p>Page: {Number(this.state.pageNumber)+1}</p>
-            <button id="pagination_move_right" onClick={this.handlePageMove}>
-              <i className="fa fa-arrow-right" />
-            </button>
-          </div>
-        );
-      }
+      postsDiv.push(
+        <div className="pagination-div" key={"pagination_id_123"}>
+          <button id="pagination_move_left" onClick={this.handlePageMove}>
+            <i className="fa fa-arrow-left"/>
+          </button>
+          <p>Page: {Number(this.state.pageNumber)+1}</p>
+          <button id="pagination_move_right" onClick={this.handlePageMove}>
+            <i className="fa fa-arrow-right" />
+          </button>
+        </div>
+      );
     }
 
     let addPost = [];
