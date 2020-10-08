@@ -1,7 +1,7 @@
 import React from 'react';
 import './Login.css';
 
-import {withRouter} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 
 class Login extends React.Component {
   constructor() {
@@ -10,12 +10,21 @@ class Login extends React.Component {
     this.state = {
       username: "",
       password: "",
-      error: ""
+      error: "",
+      redirect: []
     };
 
     this.onInputChange = this.onInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleMoveBack = this.handleMoveBack.bind(this);
+  }
+
+  componentDidMount(){
+    if(localStorage.getItem("token") !== null) {
+      this.setState({
+        redirect: <Redirect to="/" />
+      });
+    }
   }
 
   onInputChange(e) {
@@ -82,6 +91,7 @@ class Login extends React.Component {
   render() {
     return(
       <div className="Login">
+        {this.state.redirect}
         <div>
           <div className="title">
             <button onClick={this.handleMoveBack}>

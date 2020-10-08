@@ -50,6 +50,7 @@ class DisplayPost extends React.Component {
     this.mappedComments = this.mappedComments.bind(this);
     this.handleCommentUpload = this.handleCommentUpload.bind(this);
     this.handleSendToLogin = this.handleSendToLogin.bind(this);
+    this.dateSince = this.dateSince.bind(this);
   }
 
   componentDidMount() {
@@ -200,6 +201,26 @@ class DisplayPost extends React.Component {
     this.props.history.push("/login");
   }
 
+  dateSince(pastDate) {
+    let secondsSince = Math.floor(Number(new Date() - new Date(pastDate)) / 1000);
+    let minutesSince = Math.floor(Number(secondsSince) / 60);
+    let hoursSince = Math.floor(Number(minutesSince) / 60);
+    let daysSince = Math.floor(Number(hoursSince) / 24);
+    
+    let dateSince = "Seconds ago";
+    if(minutesSince > 0) {
+      dateSince = minutesSince + " Minutes ago";
+    }
+    if(hoursSince > 0) {
+      dateSince = hoursSince + " Hours ago";
+    }
+    if(daysSince > 0) {
+      dateSince = daysSince + " Days ago";
+    }
+
+    return dateSince;
+  }
+
   mappedPost() {
 
     let imagePath = "";
@@ -264,7 +285,7 @@ class DisplayPost extends React.Component {
           <div className="comment-div" key={"mapped_comment_key_"+this.state.post.postId+"_"+cIndex}>
             <img src={imagePath} />
             <div className="date">
-              {comment.date}
+              {this.dateSince(comment.date)}
             </div>
             <div className="username">
               {comment.user.username}

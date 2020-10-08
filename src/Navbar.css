@@ -12,7 +12,7 @@
 */
 
 .Navbar {
-    width: 100vw;
+    width: 100%;
     background-color: #212D40;
     height: 12vh;
     position: fixed;
@@ -86,6 +86,16 @@
     padding: 35px 20px 0px 20px;
     transform: translateX(100%);
     transition: 0.4s ease-in-out;
+}
+
+@media screen and (min-width: 800px) {
+    .nav-button {
+        display: none;
+    }
+
+    .nav-links {
+        transform: translateX(0px);
+    }
 }
 
 .nav-links-active {

@@ -17,11 +17,13 @@
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+    align-items: center;
 }
 
 .DisplayPost .post {
     background-color: #212D40;
     display: grid;
+    max-width: 500px;
     grid-template-areas: 
         "title title"
         "img img"
@@ -116,6 +118,8 @@
 }
 
 .DisplayPost .comments-div {
+    max-width: 500px;
+    width: 100%;
     display: flex;
     flex-direction: column;
 }
@@ -200,9 +204,10 @@
 }
 
 .DisplayPost .comments-div .new-comment-div button {
-    background-color: #364156;
+    background-color: #00d9fb;
     font-size: 20px;
     padding: 4px;
+    color: #364156;
 }
 
 .DisplayPost .comments-div .new-comment-div button:active {

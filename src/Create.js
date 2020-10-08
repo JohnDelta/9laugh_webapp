@@ -2,7 +2,7 @@ import React from 'react';
 import './Create.css';
 import DefaultResourseLinks from './DefaultRecourseLinks';
 
-import {withRouter} from "react-router-dom";
+import {Redirect, withRouter} from "react-router-dom";
 
 class Create extends React.Component {
   constructor() {
@@ -13,13 +13,22 @@ class Create extends React.Component {
       password: "",
       password2: "",
       error: "",
-      defaultImg: DefaultResourseLinks.getDefaultUserImageLink()
+      defaultImg: DefaultResourseLinks.getDefaultUserImageLink(),
+      redirect: []
     };
 
     this.onImageChange = this.onImageChange.bind(this);
     this.onInputChange = this.onInputChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleMoveBack = this.handleMoveBack.bind(this);
+  }
+
+  componentDidMount(){
+    if(localStorage.getItem("token") !== null) {
+      this.setState({
+        redirect: <Redirect to="/" />
+      });
+    }
   }
 
   onImageChange(e) {
@@ -134,6 +143,7 @@ class Create extends React.Component {
   render() {
     return(
       <div className="Create">
+        {this.state.redirect}
         <div>
           <div className="title">
             <button onClick={this.handleMoveBack}>

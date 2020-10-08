@@ -161,9 +161,9 @@ class Navbar extends React.Component {
         </Link>
         
         <div className="menu-div">
-          <button className="notification-div">
+          {/* <button className="notification-div">
             <i className="fa fa-bell"></i>
-          </button>
+          </button> */}
           
           <div className="nav-button" onClick={this.toggleNavbar}>
             <div />
